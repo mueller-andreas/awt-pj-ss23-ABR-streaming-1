@@ -21,3 +21,14 @@ Related links:
 Supervisor(s): 
 
 - Silhavy, Daniel
+
+
+## First presentation
+
+– Problem Statement
+
+– Paper Review
+
+– Schedule
+
+– Next Steps
