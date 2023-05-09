@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chart.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+
+    <style>
+      /* Style the context menu */
+      .context-menu {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        padding: 8px 0;
+        background-color: #fff;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+      }
+
+      /* Style the context menu items */
+      .context-menu a {
+        display: block;
+        padding: 8px 16px;
+        color: #000;
+        text-decoration: none;
+      }
+
+      /* Change the color of the context menu items on hover */
+      .context-menu a:hover {
+        background-color: #eee;
+      }
+
+      .chart-container {
+        width: 800px;
+        height: 400px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <button id="exportButton">Export Data</button>
+
+    <!-- Add the context menu -->
+    <div id="contextMenu" class="context-menu"></div>
+
+    <script src="editor.js"></script>
+  </body>
+</html>
