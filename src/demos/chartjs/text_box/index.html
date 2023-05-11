@@ -3,8 +3,8 @@
   <head>
     <title>Chart.js Example</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script>
 
     <style>
       /* Style the context menu */
@@ -34,21 +34,34 @@
         background-color: #eee;
       }
 
-      .chart-container {
+      #wrapper {
         width: 800px;
+      }
+
+      canvas {
         height: 400px;
+      }
+
+      textarea {
+        width: 60%;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        font-size: 16px;
+        resize: none;
       }
     </style>
   </head>
 
   <body>
-    <div class="chart-container">
+    <div id="wrapper">
       <canvas id="myChart"></canvas>
+
+      <textarea id="chartData" readonly></textarea>
     </div>
 
-    <button id="exportButton">Export Data</button>
-
-    <!-- Add the context menu -->
     <div id="contextMenu" class="context-menu"></div>
 
     <script src="editor.js"></script>
