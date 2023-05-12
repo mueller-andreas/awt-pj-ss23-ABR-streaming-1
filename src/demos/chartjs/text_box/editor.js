@@ -170,7 +170,7 @@ const chartDataTextarea = document.getElementById("chartData");
 
 function updateTextareaSize() {
   chartDataTextarea.style.height = "auto";
-  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + "px";
+  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
 }
 
 chartDataTextarea.addEventListener("input", updateTextareaSize);
@@ -219,14 +219,17 @@ function deleteDataPoint(chart, activeElements) {
   // Get the index of the data point that was right-clicked
   const index = activeElements[0].index;
 
-  // Delete the data point from the chart
-  chart.data.datasets[0].data.splice(index, 1);
-  chart.data.labels.splice(index, 1);
+  // Delete point only if it is not the last data point
+  if (index !== chart.data.datasets[0].data.length - 1) {
+    // Delete the data point from the chart
+    chart.data.datasets[0].data.splice(index, 1);
+    chart.data.labels.splice(index, 1);
 
-  // Hide the context menu
-  contextMenu.style.display = "none";
-  updateFirstElement();
-  chart.update();
+    // Hide the context menu
+    contextMenu.style.display = "none";
+    updateFirstElement();
+    chart.update();
+  }
 }
 
 // Add event listener for contextmenu event on chart canvas
