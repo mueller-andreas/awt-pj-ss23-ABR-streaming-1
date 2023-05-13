@@ -132,12 +132,15 @@ const chart = new Chart(chartContext, {
     },
   },
 });
+
+// Call the update text area function to initialize the text area
 updateChartDataText();
 
+// Define function to update the text area
 function updateChartDataText() {
   const data = chart.data.datasets[0].data;
-  const output = data.slice(1).map((point) => ({
-    duration: point.x,
+  const output = data.slice(1).map((point, index) => ({
+    duration: point.x - data[index].x,
     speed: point.y,
   }));
   document.getElementById("chartData").value = JSON.stringify(output);
