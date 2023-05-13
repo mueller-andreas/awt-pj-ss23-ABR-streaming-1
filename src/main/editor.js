@@ -318,8 +318,8 @@ function exportChartData() {
   // Map the x and y properties to speed and duration
   var newData = chartData.map(function(item) {
     return {
-      speed: item.x,
-      duration: item.y
+      duration: item.x,
+      speed: item.y
     };
   });
 
@@ -346,4 +346,37 @@ function downloadFile(data, filename, type) {
       }, 0);
   }
 }
+
+function importChartData() {
+  var input = document.getElementById('inputFile');
+
+  // Check if a file was selected
+  if (!input.files || !input.files[0]) {
+    return;
+  }
+
+  // Create a new FileReader
+  var reader = new FileReader();
+
+  // Set the function to be executed when the file is loaded
+  reader.onload = function() {
+    var data = JSON.parse(reader.result);
+
+    // Map the duration and speed properties to x and y
+    var newData = data.map(function(item) {
+      return {
+        x: item.duration,
+        y: item.speed
+      };
+    });
+
+    chart.data.datasets[0].data = newData;
+    chart.update();
+  };
+
+  // Read the file as text
+  reader.readAsText(input.files[0]);
+}
+
+
 
