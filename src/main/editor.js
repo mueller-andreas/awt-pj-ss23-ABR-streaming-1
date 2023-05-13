@@ -314,9 +314,20 @@ document.addEventListener("click", () => {
 
 function exportChartData() {
   var chartData = chart.data.datasets[0].data;
-  var jsonData = JSON.stringify(chartData);
+
+  // Map the x and y properties to speed and duration
+  var newData = chartData.map(function(item) {
+    return {
+      speed: item.x,
+      duration: item.y
+    };
+  });
+
+  var jsonData = JSON.stringify(newData);
   downloadFile(jsonData, 'chartData.json', 'application/json');
 }
+
+
 
 function downloadFile(data, filename, type) {
   var file = new Blob([data], {type: type});
