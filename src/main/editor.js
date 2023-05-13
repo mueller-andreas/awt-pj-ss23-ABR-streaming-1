@@ -352,6 +352,7 @@ function importChartData() {
 
   // Check if a file was selected
   if (!input.files || !input.files[0]) {
+    alert("Please select a file to import.");
     return;
   }
 
