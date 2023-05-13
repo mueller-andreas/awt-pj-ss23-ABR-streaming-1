@@ -2,6 +2,18 @@
 // Get the chart context
 const chartContext = document.getElementById("myChart").getContext("2d");
 
+const pluginCanvasBackgroundColor = {
+  id: "customCanvasBackgroundColor",
+  beforeDraw: (chart, args, options) => {
+    const { ctx } = chart;
+    ctx.save();
+    ctx.globalCompositeOperation = "destination-over";
+    ctx.fillStyle = options.color || "#99ffff";
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  },
+};
+
 // Create the chart
 const chart = new Chart(chartContext, {
   type: "line",
@@ -31,6 +43,9 @@ const chart = new Chart(chartContext, {
 
   options: {
     plugins: {
+      customCanvasBackgroundColor: {
+        color: "white",
+      },
       tooltip: {
         callbacks: {
           title: function () {
@@ -131,6 +146,7 @@ const chart = new Chart(chartContext, {
       },
     },
   },
+  plugins: [pluginCanvasBackgroundColor],
 });
 
 // Call the update text area function to initialize the text area
@@ -310,4 +326,18 @@ chart.canvas.addEventListener("contextmenu", (event) => {
 // Add event listener for click event on document to hide context menu
 document.addEventListener("click", () => {
   contextMenu.style.display = "none";
+});
+
+// Add an event listener to the export button
+document.getElementById("exportButton").addEventListener("click", function () {
+  // Get the chart's base64 image string
+  const chartImageURL = chart.toBase64Image();
+
+  // Create a virtual anchor tag
+  const downloadLink = document.createElement("a");
+  downloadLink.href = chartImageURL;
+  downloadLink.download = "chart.png";
+
+  // Trigger the download
+  downloadLink.click();
 });
