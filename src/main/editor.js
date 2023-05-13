@@ -311,3 +311,28 @@ chart.canvas.addEventListener("contextmenu", (event) => {
 document.addEventListener("click", () => {
   contextMenu.style.display = "none";
 });
+
+function exportChartData() {
+  var chartData = chart.data.datasets[0].data;
+  var jsonData = JSON.stringify(chartData);
+  downloadFile(jsonData, 'chartData.json', 'application/json');
+}
+
+function downloadFile(data, filename, type) {
+  var file = new Blob([data], {type: type});
+  if (window.navigator.msSaveOrOpenBlob) // IE10+
+      window.navigator.msSaveOrOpenBlob(file, filename);
+  else { // Others
+      var a = document.createElement("a"),
+              url = URL.createObjectURL(file);
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+      }, 0);
+  }
+}
+
