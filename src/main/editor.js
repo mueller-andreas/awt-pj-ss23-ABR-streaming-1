@@ -311,3 +311,7 @@ chart.canvas.addEventListener("contextmenu", (event) => {
 document.addEventListener("click", () => {
   contextMenu.style.display = "none";
 });
+
+document.querySelector("#copy-button").onclick = function() {
+  navigator.clipboard.writeText(document.querySelector("#chartData").value);
+}
