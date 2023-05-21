@@ -2,68 +2,20 @@
 <html>
   <head>
     <title>Chart.js Example</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script>
-
-    <style>
-      /* Style the context menu */
-      .context-menu {
-        display: none;
-        position: absolute;
-        z-index: 1;
-        padding: 8px 0;
-        background-color: #fff;
-        border: none;
-        border-radius: 4px;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-      }
-
-      /* Style the context menu items */
-      .context-menu a {
-        display: block;
-        padding: 8px 16px;
-        color: #000;
-        text-decoration: none;
-      }
-
-      /* Change the color of the context menu items on hover */
-      .context-menu a:hover {
-        background-color: #eee;
-      }
-
-      #wrapper {
-        width: 800px;
-      }
-
-      canvas {
-        height: 400px;
-      }
-
-      textarea {
-        width: 60%;
-        padding: 12px 20px;
-        box-sizing: border-box;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        background-color: #f8f8f8;
-        font-size: 16px;
-        resize: none;
-      }
-    </style>
   </head>
 
   <body>
-    <div id="wrapper">
-      <canvas id="myChart"></canvas>
-
+    <canvas id="myChart"></canvas>
+    <div id="textarea-wrapper">
       <textarea id="chartData" readonly></textarea>
+      <button id="copy-button">Copy To Clipboard</button>
     </div>
 
     <div id="contextMenu" class="context-menu"></div>
-
     <script src="editor.js"></script>
   </body>
 </html>
