@@ -10,7 +10,7 @@ const chart = new Chart(chartContext, {
       {
         label: "Bandwidth Trajectory",
         data: [
-          { x: 0, y: 8000 },
+          { x: 0, y: 0 },
           { x: 5000, y: 8000 },
           { x: 10000, y: 1000 },
           { x: 20000, y: 12000 },
@@ -156,18 +156,19 @@ function updateFirstElement() {
 
 // Add event listener for text area
 //@TODO values need to be validated
-// document.getElementById("chartData").addEventListener("input", (event) => {
-//   try {
-//     const newData = JSON.parse(event.target.value);
-//     chart.data.datasets[0].data = newData.map((point) => ({
-//       x: point.duration,
-//       y: point.speed,
-//     }));
-//     chart.update();
-//   } catch (error) {
-//     console.error("Invalid chart data:", error);
-//   }
-// });
+document.getElementById("chartData").addEventListener("input", (event) => {
+  try {
+    const newData = JSON.parse(event.target.value);
+    chart.data.datasets[0].data = [
+      {x: 0, y: 0}, ...newData.map((point) => ({
+      x: point.duration,
+      y: point.speed,
+    }))];
+    chart.update();
+  } catch (error) {
+    console.error("Invalid chart data:", error);
+  }
+});
 
 const chartDataTextarea = document.getElementById("chartData");
 
