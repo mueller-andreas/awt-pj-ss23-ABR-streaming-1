@@ -149,6 +149,8 @@ const chart = new Chart(chartContext, {
   plugins: [pluginCanvasBackgroundColor],
 });
 
+// Call the loadChartData function when the page loads
+loadChartData();
 // Call the update text area function to initialize the text area
 updateChartDataText();
 
@@ -168,6 +170,7 @@ function updateFirstElement() {
   data[0].y = data[1].y;
   updateChartDataText();
   updateTextareaSize();
+  saveChartData();
 }
 
 // Add event listener for text area
@@ -341,3 +344,28 @@ document.getElementById("exportButton").addEventListener("click", function () {
   // Trigger the download
   downloadLink.click();
 });
+
+// Define a function to save the chart data to local storage
+function saveChartData() {
+  // Get the chart data from the chart object
+  let chartData = chart.data.datasets[0].data;
+  // Convert the chart data to a JSON string
+  let chartDataString = JSON.stringify(chartData);
+  // Save the chart data string to local storage with a key of "chartData"
+  localStorage.setItem("chartData", chartDataString);
+}
+
+// Define a function to load the chart data from local storage
+function loadChartData() {
+  // Get the chart data string from local storage with a key of "chartData"
+  let chartDataString = localStorage.getItem("chartData");
+  // Check if the chart data string exists
+  if (chartDataString) {
+    // Convert the chart data string to an array of objects
+    let chartData = JSON.parse(chartDataString);
+    // Update the chart data with the loaded data
+    chart.data.datasets[0].data = chartData;
+    // Update the chart
+    chart.update();
+  }
+}
