@@ -155,34 +155,73 @@ function updateFirstElement() {
 }
 
 // Add event listener for text area
-//@TODO values need to be validated
 document.getElementById("chartData").addEventListener("input", (event) => {
-  try {
-    const newData = JSON.parse(event.target.value);
+  var origin = event.target;
+  var text = origin.value.replace(/ /g,'');
+
+  if (event.data == "{") {
+    insertSegmentText(origin)
+  } else {
+    console.log(event.data)
+  }
+
+  // match textare input 
+  var pattern = /^\[\{"duration":\d+,"speed":\d+\}(,\{"duration":\d+,"speed":\d+\})*]$/
+  result = pattern.test(text)
+  origin.classList.toggle("invalid", !result)
+
+  // if valid JSON update graph
+  if (result) {
+    const newData = JSON.parse(text);
     chart.data.datasets[0].data = [
       {x: 0, y: 0}, ...newData.map((point) => ({
-      x: point.duration,
-      y: point.speed,
-    }))];
-    chart.update();
-  } catch (error) {
-    console.error("Invalid chart data:", error);
+        x: point.duration,
+        y: point.speed,
+      }))];
+    chart.update()
   }
 });
 
-const chartDataTextarea = document.getElementById("chartData");
+function insertSegmentText(textarea) {
+  var start = textarea.selectionStart;
+  var end = textarea.selectionEnd;
+  var sel = textarea.value.substring(start, end);
+  var finText = textarea.value.substring(0, start) + "\"duration\":,\"speed\":}" + textarea.value.substring(end);
+  textarea.value = finText;
+  textarea.focus();
+  textarea.selectionEnd= end + 11;
+}
 
+// tab-based navigation
+document.getElementById("chartData").addEventListener("keydown", (event) => {
+  var origin = event.target;
+  var text = origin.value;
+  if (event.key != "Tab") return
+  event.preventDefault()
+  var start = origin.selectionStart;
+  var end = origin.selectionEnd;
+  var nextColon = text.indexOf(":", end)
+  if (nextColon == -1) {
+    nextColon = text.length - 1;
+  } else {
+    nextColon += 1;
+  }
+  console.log(nextColon)
+  origin.selectionEnd = origin.selectionStart = nextColon;
+});
+
+
+// functionality for resizing the chart
+const chartDataTextarea = document.getElementById("chartData");
 function updateTextareaSize() {
   chartDataTextarea.style.height = "auto";
   chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
 }
-
 chartDataTextarea.addEventListener("input", updateTextareaSize);
-
-// Update the textarea size initially
 updateTextareaSize();
 
-// Get the context menu element
+
+// context menu stuff
 const contextMenu = document.getElementById("contextMenu");
 
 // Define function to add data point
