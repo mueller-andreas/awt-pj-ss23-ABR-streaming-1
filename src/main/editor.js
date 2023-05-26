@@ -161,11 +161,9 @@ document.getElementById("chartData").addEventListener("input", (event) => {
 
   if (event.data == "{") {
     insertSegmentText(origin)
-  } else {
-    console.log(event.data)
   }
 
-  // match textare input 
+  // match textarea input 
   var pattern = /^\[\{"duration":\d+,"speed":\d+\}(,\{"duration":\d+,"speed":\d+\})*]$/
   result = pattern.test(text)
   origin.classList.toggle("invalid", !result)
@@ -206,7 +204,6 @@ document.getElementById("chartData").addEventListener("keydown", (event) => {
   } else {
     nextColon += 1;
   }
-  console.log(nextColon)
   origin.selectionEnd = origin.selectionStart = nextColon;
 });
 
