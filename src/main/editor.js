@@ -170,23 +170,7 @@ function updateFirstElement() {
   data[0].y = data[1].y;
   updateChartDataText();
   updateTextareaSize();
-  saveChartData();
 }
-
-// Add event listener for text area
-//@TODO values need to be validated
-// document.getElementById("chartData").addEventListener("input", (event) => {
-//   try {
-//     const newData = JSON.parse(event.target.value);
-//     chart.data.datasets[0].data = newData.map((point) => ({
-//       x: point.duration,
-//       y: point.speed,
-//     }));
-//     chart.update();
-//   } catch (error) {
-//     console.error("Invalid chart data:", error);
-//   }
-// });
 
 const chartDataTextarea = document.getElementById("chartData");
 
