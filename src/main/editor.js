@@ -10,7 +10,7 @@ const chart = new Chart(chartContext, {
       {
         label: "Bandwidth Trajectory",
         data: [
-          { x: 0, y: 0 },
+          { x: 0, y: 8000 },
           { x: 5000, y: 8000 },
           { x: 10000, y: 1000 },
           { x: 20000, y: 12000 },
@@ -164,18 +164,22 @@ document.getElementById("chartData").addEventListener("input", (event) => {
   }
 
   // match textarea input 
-  var pattern = /^\[\{"duration":\d+,"speed":\d+\}(,\{"duration":\d+,"speed":\d+\})*]$/
+  var pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/
   result = pattern.test(text)
   origin.classList.toggle("invalid", !result)
 
   // if valid JSON update graph
   if (result) {
     const newData = JSON.parse(text);
-    chart.data.datasets[0].data = [
-      {x: 0, y: 0}, ...newData.map((point) => ({
-        x: point.duration,
-        y: point.speed,
-      }))];
+
+    sum = 0;
+    res = newData.map((parameter) => {
+      console.log(parameter)
+      sum += parameter.duration
+      return {x: sum, y: parameter.speed};
+    })
+
+    chart.data.datasets[0].data = [{x: 0, y:res[0].y}, ...res];
     chart.update()
   }
 });
