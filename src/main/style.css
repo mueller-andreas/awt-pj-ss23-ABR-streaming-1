@@ -33,25 +33,8 @@ canvas {
   height: 400px;
 }
 
-#textarea-wrapper {
-  position: relative;
+form {
   width: 100%;
-  resize: both;
-}
-
-#copy-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 1px solid #ccc;
-  padding: 0.25em;
-  border-radius: 4px;
-  background-color: #f8f8f8;;
-}
-
-#copy-button:hover {
-  background-color: #dfdfdf;
-  cursor:pointer;
 }
 
 textarea {
@@ -67,4 +50,8 @@ textarea {
 
 textarea.invalid {
   outline: auto red 1px;
+}
+
+form:has(textarea.invalid)::after {
+  content: "Invalid JSON";
 }
