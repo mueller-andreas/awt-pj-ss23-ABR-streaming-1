@@ -1,0 +1,61 @@
+/* Style the context menu */
+.context-menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  padding: 8px 0;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Style the context menu items */
+.context-menu a {
+  display: block;
+  padding: 8px 16px;
+  color: #000;
+  text-decoration: none;
+}
+
+/* Change the color of the context menu items on hover */
+.context-menu a:hover {
+  background-color: #eee;
+}
+
+#wrapper {
+  width: 800px;
+}
+
+canvas {
+  height: 400px;
+}
+
+textarea {
+  width: 60%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+
+/* Style the exportButton */
+#exportButton {
+  background-color: #f1f1f1;
+  color: black;
+  padding: 10px 14px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Change the background color of the exportButton on hover */
+#exportButton:hover {
+  background-color: #ddd;
+}
