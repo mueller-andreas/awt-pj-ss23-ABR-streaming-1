@@ -120,6 +120,7 @@ const chart = new Chart(chartContext, {
           }
           updateFirstElement();
           chart.update();
+          saveChartData();
         },
       },
     },
@@ -218,6 +219,7 @@ function addDataPoint(chart, position) {
   contextMenu.style.display = "none";
   updateFirstElement();
   chart.update();
+  saveChartData();
 }
 
 // Define function to delete data point
@@ -235,6 +237,7 @@ function deleteDataPoint(chart, activeElements) {
     contextMenu.style.display = "none";
     updateFirstElement();
     chart.update();
+    saveChartData();
   }
 }
 
@@ -280,7 +283,6 @@ chart.canvas.addEventListener("contextmenu", (event) => {
         .addEventListener("click", (event) => {
           // Prevent the link from navigating to a new page
           event.preventDefault();
-
           // Pass the entire activeElements array to the function
           deleteDataPoint(chart, activeElements);
         });
@@ -298,7 +300,6 @@ chart.canvas.addEventListener("contextmenu", (event) => {
         .addEventListener("click", (event) => {
           // Prevent the link from navigating to a new page
           event.preventDefault();
-
           addDataPoint(chart, position);
         });
     }
