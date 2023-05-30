@@ -1,196 +1,41 @@
+import { data } from "./modules/chart/data.js";
+import { options } from "./modules/chart/options.js";
+import { pluginCanvasBackgroundColor } from "./modules/chart/plugins.js";
+import {
+  onDragStart,
+  onDrag,
+  onDragEnd,
+} from "./modules/chart/dragHandlers.js";
+import { updateDataAndUI } from "./modules/chart/functions/updateFunctions.js";
+import {
+  saveChartData,
+  loadChartData,
+} from "./modules/chart/localStorage/localStorage.js";
+
 // chart.js
 // Get the chart context
 const chartContext = document.getElementById("myChart").getContext("2d");
 
-//background color for exporting the chart
-const pluginCanvasBackgroundColor = {
-  id: "customCanvasBackgroundColor",
-  beforeDraw: (chart, args, options) => {
-    const { ctx } = chart;
-    ctx.save();
-    ctx.globalCompositeOperation = "destination-over";
-    ctx.fillStyle = options.color || "#99ffff";
-    ctx.fillRect(0, 0, chart.width, chart.height);
-    ctx.restore();
-  },
-};
-
 // Create the chart
 const chart = new Chart(chartContext, {
   type: "line",
-  data: {
-    datasets: [
-      {
-        label: "Bandwidth Trajectory",
-        data: [
-          { x: 0, y: 8000 },
-          { x: 5000, y: 8000 },
-          { x: 10000, y: 1000 },
-          { x: 20000, y: 12000 },
-        ],
-        borderColor: "rgb(67, 155, 255)",
-        backgroundColor: "rgba(67, 155, 255, 0.5)",
-        stepped: "after",
-        // Disable the first point
-        pointHitRadius: function (context) {
-          return context.dataIndex === 0 ? 0 : 1;
-        },
-        pointRadius: function (context) {
-          return context.dataIndex === 0 ? 0 : 3;
-        },
-      },
-    ],
-  },
-
-  options: {
-    plugins: {
-      customCanvasBackgroundColor: {
-        color: "white",
-      },
-      tooltip: {
-        callbacks: {
-          title: function () {
-            // return custom title
-            return "";
-          },
-          label: function (context) {
-            // return custom label
-            return "ms: " + context.parsed.x + ", kbit/s: " + context.parsed.y;
-          },
-        },
-      },
-
-      dragData: {
-        dragX: true,
-        onDragStart: function (e, datasetIndex, index, value) {
-          // Prevent first data point to be dragged
-          if (index === 0) {
-            return false;
-          }
-        },
-        onDrag: function (e, datasetIndex, index, value) {
-          const data = chart.data.datasets[datasetIndex].data;
-
-          // Round x-value
-          let roundedX = Math.round(value.x / 100) * 100;
-          // update data point with rounded x-value
-          data[index].x = roundedX;
-
-          // Round y-value
-          let roundedY = Math.round(value.y / 100) * 100;
-          // update data point with rounded y-value
-          data[index].y = roundedY;
-
-          // Check if the current data point is not the first or last
-          if (index > 0 && index < data.length - 1) {
-            // Get the previous and next data points
-            const prev = data[index - 1].x;
-            const next = data[index + 1].x;
-            // Limit the x value of the current data point to be between the previous and next data points
-            value.x = Math.max(prev, Math.min(next, value.x));
-          } else if (index === 0) {
-            // Limit the x value of the first data point to be less than or equal to the second data point
-            console.log(
-              "Error: The first data point should not be interactive"
-            );
-          } else if (index === data.length - 1) {
-            // Prevent horizontal dragging for the last data point
-            value.x = chart.scales.x.max;
-          }
-          updateDataAndUI();
-        },
-        onDragEnd: function (e, datasetIndex, index, value) {
-          // Get the data from the dataset
-          const data = chart.data.datasets[datasetIndex].data;
-          // Check if the current data point is not the first or last
-          if (index > 0 && index < data.length - 1) {
-            // Get the previous and next data points
-            const prevIndex = index - 1;
-            const nextIndex = index + 1;
-            const prev = data[prevIndex].x;
-            const next = data[nextIndex].x;
-            // Check if the current data point is at the same x position as one of its neighbors
-            if (value.x === prev) {
-              // Remove the previous data point
-              data.splice(index, 1);
-            } else if (value.x === next) {
-              // Remove the next data point
-              data.splice(nextIndex, 1);
-            }
-          }
-          updateDataAndUI();
-          chart.update();
-          saveChartData();
-        },
-      },
-    },
-
-    scales: {
-      x: {
-        type: "linear",
-        title: {
-          display: true,
-          text: "Duration (ms)",
-        },
-        min: 0,
-        max: 20000,
-        stepSize: 1,
-      },
-      y: {
-        title: {
-          display: true,
-          text: "Speed (kbit/s)",
-        },
-        beginAtZero: true,
-        suggestedMax: 15000,
-        stepSize: 1,
-      },
-    },
-  },
+  data: data,
+  options: options,
   plugins: [pluginCanvasBackgroundColor],
 });
 
-const chartDataTextarea = document.getElementById("chartData");
+// // Add the chart events
+// chart.options.plugins.dragData = { onDragStart, onDrag, onDragEnd };
+
+// Add the chart events and bind this to the chart instance
+chart.options.plugins.dragData.onDragStart = onDragStart.bind(chart);
+chart.options.plugins.dragData.onDrag = onDrag.bind(chart);
+chart.options.plugins.dragData.onDragEnd = onDragEnd.bind(chart);
 
 // Call the loadChartData function when the page loads
-loadChartData();
-// Call the update text area function to initialize the text area
-updateChartDataText();
-// Update the textarea size initially
-updateTextareaSize();
-
-function updateTextareaSize() {
-  chartDataTextarea.style.height = "auto";
-  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
-}
-
-chartDataTextarea.addEventListener("input", updateTextareaSize);
-
-// Define function to update the text area
-function updateChartDataText() {
-  const data = chart.data.datasets[0].data;
-  const output = data.slice(1).map((point, index) => ({
-    duration: point.x - data[index].x,
-    speed: point.y,
-  }));
-  document.getElementById("chartData").value = JSON.stringify(output);
-}
-
-// Define function to keep the first element level with the second
-function updateFirstElement() {
-  const data = chart.data.datasets[0].data;
-  data[0].y = data[1].y;
-}
-
-// Define function to update necessary functions
-function updateDataAndUI() {
-  // Update the first element
-  updateFirstElement();
-  // Update the text area with the chart data
-  updateChartDataText();
-  // Adjust the text area size according to the content
-  updateTextareaSize();
-}
+loadChartData(chart);
+// Call the updateDataAndUI function to initialize the page
+updateDataAndUI(chart);
 
 // Get the context menu element
 const contextMenu = document.getElementById("contextMenu");
@@ -224,9 +69,9 @@ function addDataPoint(chart, position) {
 
   // Hide the context menu
   contextMenu.style.display = "none";
-  updateDataAndUI();
+  updateDataAndUI(chart);
   chart.update();
-  saveChartData();
+  saveChartData(chart);
 }
 
 // Define function to delete data point
@@ -242,9 +87,9 @@ function deleteDataPoint(chart, activeElements) {
 
     // Hide the context menu
     contextMenu.style.display = "none";
-    updateDataAndUI();
+    updateDataAndUI(chart);
     chart.update();
-    saveChartData();
+    saveChartData(chart);
   }
 }
 
@@ -336,28 +181,3 @@ document.getElementById("exportButton").addEventListener("click", function () {
   // Trigger the download
   downloadLink.click();
 });
-
-// Define a function to save the chart data to local storage
-function saveChartData() {
-  // Get the chart data from the chart object
-  let chartData = chart.data.datasets[0].data;
-  // Convert the chart data to a JSON string
-  let chartDataString = JSON.stringify(chartData);
-  // Save the chart data string to local storage with a key of "chartData"
-  localStorage.setItem("chartData", chartDataString);
-}
-
-// Define a function to load the chart data from local storage
-function loadChartData() {
-  // Get the chart data string from local storage with a key of "chartData"
-  let chartDataString = localStorage.getItem("chartData");
-  // Check if the chart data string exists
-  if (chartDataString) {
-    // Convert the chart data string to an array of objects
-    let chartData = JSON.parse(chartDataString);
-    // Update the chart data with the loaded data
-    chart.data.datasets[0].data = chartData;
-    // Update the chart
-    chart.update();
-  }
-}
