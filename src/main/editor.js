@@ -2,6 +2,7 @@
 // Get the chart context
 const chartContext = document.getElementById("myChart").getContext("2d");
 
+//background color for exporting the chart
 const pluginCanvasBackgroundColor = {
   id: "customCanvasBackgroundColor",
   beforeDraw: (chart, args, options) => {
@@ -96,8 +97,7 @@ const chart = new Chart(chartContext, {
             // Prevent horizontal dragging for the last data point
             value.x = chart.scales.x.max;
           }
-          // Make sure that the first data point is level with the second data point
-          updateFirstElement();
+          updateDataAndUI();
         },
         onDragEnd: function (e, datasetIndex, index, value) {
           // Get the data from the dataset
@@ -118,7 +118,7 @@ const chart = new Chart(chartContext, {
               data.splice(nextIndex, 1);
             }
           }
-          updateFirstElement();
+          updateDataAndUI();
           chart.update();
           saveChartData();
         },
@@ -169,7 +169,15 @@ function updateChartDataText() {
 function updateFirstElement() {
   const data = chart.data.datasets[0].data;
   data[0].y = data[1].y;
+}
+
+// Define function to update necessary functions
+function updateDataAndUI() {
+  // Update the first element
+  updateFirstElement();
+  // Update the text area with the chart data
   updateChartDataText();
+  // Adjust the text area size according to the content
   updateTextareaSize();
 }
 
@@ -180,10 +188,10 @@ function updateTextareaSize() {
   chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
 }
 
-chartDataTextarea.addEventListener("input", updateTextareaSize);
-
 // Update the textarea size initially
 updateTextareaSize();
+
+chartDataTextarea.addEventListener("input", updateTextareaSize);
 
 // Get the context menu element
 const contextMenu = document.getElementById("contextMenu");
@@ -217,7 +225,7 @@ function addDataPoint(chart, position) {
 
   // Hide the context menu
   contextMenu.style.display = "none";
-  updateFirstElement();
+  updateDataAndUI();
   chart.update();
   saveChartData();
 }
@@ -235,7 +243,7 @@ function deleteDataPoint(chart, activeElements) {
 
     // Hide the context menu
     contextMenu.style.display = "none";
-    updateFirstElement();
+    updateDataAndUI();
     chart.update();
     saveChartData();
   }
