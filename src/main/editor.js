@@ -120,6 +120,7 @@ const chart = new Chart(chartContext, {
           }
           updateFirstElement();
           chart.update();
+          saveChartData();
         },
       },
     },
@@ -149,6 +150,8 @@ const chart = new Chart(chartContext, {
   plugins: [pluginCanvasBackgroundColor],
 });
 
+// Call the loadChartData function when the page loads
+loadChartData();
 // Call the update text area function to initialize the text area
 updateChartDataText();
 
@@ -169,21 +172,6 @@ function updateFirstElement() {
   updateChartDataText();
   updateTextareaSize();
 }
-
-// Add event listener for text area
-//@TODO values need to be validated
-// document.getElementById("chartData").addEventListener("input", (event) => {
-//   try {
-//     const newData = JSON.parse(event.target.value);
-//     chart.data.datasets[0].data = newData.map((point) => ({
-//       x: point.duration,
-//       y: point.speed,
-//     }));
-//     chart.update();
-//   } catch (error) {
-//     console.error("Invalid chart data:", error);
-//   }
-// });
 
 const chartDataTextarea = document.getElementById("chartData");
 
@@ -231,6 +219,7 @@ function addDataPoint(chart, position) {
   contextMenu.style.display = "none";
   updateFirstElement();
   chart.update();
+  saveChartData();
 }
 
 // Define function to delete data point
@@ -248,6 +237,7 @@ function deleteDataPoint(chart, activeElements) {
     contextMenu.style.display = "none";
     updateFirstElement();
     chart.update();
+    saveChartData();
   }
 }
 
@@ -293,7 +283,6 @@ chart.canvas.addEventListener("contextmenu", (event) => {
         .addEventListener("click", (event) => {
           // Prevent the link from navigating to a new page
           event.preventDefault();
-
           // Pass the entire activeElements array to the function
           deleteDataPoint(chart, activeElements);
         });
@@ -311,7 +300,6 @@ chart.canvas.addEventListener("contextmenu", (event) => {
         .addEventListener("click", (event) => {
           // Prevent the link from navigating to a new page
           event.preventDefault();
-
           addDataPoint(chart, position);
         });
     }
@@ -341,3 +329,28 @@ document.getElementById("exportButton").addEventListener("click", function () {
   // Trigger the download
   downloadLink.click();
 });
+
+// Define a function to save the chart data to local storage
+function saveChartData() {
+  // Get the chart data from the chart object
+  let chartData = chart.data.datasets[0].data;
+  // Convert the chart data to a JSON string
+  let chartDataString = JSON.stringify(chartData);
+  // Save the chart data string to local storage with a key of "chartData"
+  localStorage.setItem("chartData", chartDataString);
+}
+
+// Define a function to load the chart data from local storage
+function loadChartData() {
+  // Get the chart data string from local storage with a key of "chartData"
+  let chartDataString = localStorage.getItem("chartData");
+  // Check if the chart data string exists
+  if (chartDataString) {
+    // Convert the chart data string to an array of objects
+    let chartData = JSON.parse(chartDataString);
+    // Update the chart data with the loaded data
+    chart.data.datasets[0].data = chartData;
+    // Update the chart
+    chart.update();
+  }
+}
