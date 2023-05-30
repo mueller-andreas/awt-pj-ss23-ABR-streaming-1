@@ -150,10 +150,21 @@ const chart = new Chart(chartContext, {
   plugins: [pluginCanvasBackgroundColor],
 });
 
+const chartDataTextarea = document.getElementById("chartData");
+
 // Call the loadChartData function when the page loads
 loadChartData();
 // Call the update text area function to initialize the text area
 updateChartDataText();
+// Update the textarea size initially
+updateTextareaSize();
+
+function updateTextareaSize() {
+  chartDataTextarea.style.height = "auto";
+  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
+}
+
+chartDataTextarea.addEventListener("input", updateTextareaSize);
 
 // Define function to update the text area
 function updateChartDataText() {
@@ -180,18 +191,6 @@ function updateDataAndUI() {
   // Adjust the text area size according to the content
   updateTextareaSize();
 }
-
-const chartDataTextarea = document.getElementById("chartData");
-
-function updateTextareaSize() {
-  chartDataTextarea.style.height = "auto";
-  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
-}
-
-// Update the textarea size initially
-updateTextareaSize();
-
-chartDataTextarea.addEventListener("input", updateTextareaSize);
 
 // Get the context menu element
 const contextMenu = document.getElementById("contextMenu");
