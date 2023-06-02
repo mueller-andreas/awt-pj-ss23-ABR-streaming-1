@@ -416,12 +416,9 @@ function importChartData() {
 
     chart.data.datasets[0].data = newData;
     chart.update();
+    updateChartDataText();
   };
 
   // Read the file as text
   reader.readAsText(input.files[0]);
 }
-
-
-
-
