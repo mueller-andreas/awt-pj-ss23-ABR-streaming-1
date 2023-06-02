@@ -69,6 +69,18 @@
       #exportButton:hover {
         background-color: #ddd;
       }
+
+      .button {
+        background-color: #f1f1f1;
+        color: black;
+        padding: 10px 14px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+
     </style>
   </head>
 
@@ -80,14 +92,17 @@
     </div>
 
     <div id="contextMenu" class="context-menu"></div>
-    <button id="exportButton">Export Graphic</button>
-
-    <button class="button" onclick="exportChartData()">Export Chart Data</button>
+    <button id="exportButton">Export Graphic as PNG</button>
     <br>
 
-    <input type="file" id="inputFile" accept=".json">
-    <button class="button" onclick="importChartData()">Import</button>
+    <button class="button" onclick="exportChartData()">Export Chart Data as JSON </button>
+    <br>
 
+    <div class="button">
+      <div>Import Chart Data From JSON File: Please choose a file and then click on "Import JSON File"</div>
+      <input  type="file" id="inputFile" accept=".json">
+      <button onclick="importChartData()">Import JSON File</button>
+    </div>
 
     <script src="editor.js"></script>
 
