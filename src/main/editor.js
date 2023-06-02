@@ -6,7 +6,10 @@ import {
   onDrag,
   onDragEnd,
 } from "./modules/chart/dragHandlers.js";
-import { updateDataAndUI } from "./modules/chart/functions/updateFunctions.js";
+import {
+  updateDataAndUI,
+  updateChartFromText
+} from "./modules/chart/functions/updateFunctions.js";
 import {
   saveChartData,
   loadChartData,
@@ -167,6 +170,11 @@ chart.canvas.addEventListener("contextmenu", (event) => {
 document.addEventListener("click", () => {
   contextMenu.style.display = "none";
 });
+
+// event listener for changes in the textarea contents
+const chartText = document.getElementById("chartData");
+chartText.chart = chart
+chartText.addEventListener("input", updateChartFromText);
 
 // Add an event listener to the export button
 document.getElementById("exportButton").addEventListener("click", function () {

@@ -32,3 +32,31 @@ function updateTextareaSize() {
   chartDataTextarea.style.height = "auto";
   chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
 }
+
+export function updateChartFromText(event) {
+  const origin = event.target;
+  const text = origin.value.replace(/ /g, '');
+
+  if (event.data == "{") {
+    insertNewTextSegment(origin)
+  }
+
+  const pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/
+  const result = pattern.test(text)
+  origin.classList.toggle("invalid", !result);
+
+  if (!result) return;
+
+  const newData = JSON.parse(text)
+
+  let sum = 0;
+  let res = newData.map((parameter) => {
+    sum += parameter.duration
+    return {x: sum, y: parameter.speed};
+  });
+
+  // update chart
+  const chart = origin.chart;
+  chart.data.datasets[0].data = [{x: 0, y:res[0].y}, ...res];
+  chart.update();
+}
