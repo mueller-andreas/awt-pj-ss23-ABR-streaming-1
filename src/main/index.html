@@ -1,25 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart.js Example</title>
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <link rel="stylesheet" href="style.css" />
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script>
+    <script type="module" src="editor.js"></script>
 
-    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <div id="wrapper">
       <canvas id="myChart"></canvas>
 
-      <textarea id="chartData" readonly></textarea>
+      <textarea id="chartData"></textarea>
     </div>
-
     <div id="contextMenu" class="context-menu"></div>
-
     <button id="exportButton">Export Graphic</button>
 
-    <script type="module" src="editor.js"></script>
   </body>
 </html>
