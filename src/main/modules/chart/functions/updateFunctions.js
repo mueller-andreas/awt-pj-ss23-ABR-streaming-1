@@ -38,7 +38,7 @@ export function updateChartFromText(event) {
   const text = origin.value.replace(/ /g, '');
 
   if (event.data == "{") {
-    insertNewTextSegment(origin)
+    insertTextSegment(origin)
   }
 
   const pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/
@@ -59,4 +59,14 @@ export function updateChartFromText(event) {
   const chart = origin.chart;
   chart.data.datasets[0].data = [{x: 0, y:res[0].y}, ...res];
   chart.update();
+}
+
+function insertTextSegment(textarea) {
+  var start = textarea.selectionStart;
+  var end = textarea.selectionEnd;
+  var sel = textarea.value.substring(start, end);
+  var finText = textarea.value.substring(0, start) + "\"duration\":,\"speed\":}" + textarea.value.substring(end);
+  textarea.value = finText;
+  textarea.focus();
+  textarea.selectionEnd= end + 11;
 }
