@@ -53,6 +53,7 @@
         resize: none;
       }
 
+
       /* Style the exportButton */
       #exportButton {
         background-color: #f1f1f1;
@@ -79,9 +80,16 @@
     </div>
 
     <div id="contextMenu" class="context-menu"></div>
-
     <button id="exportButton">Export Graphic</button>
 
+    <button class="button" onclick="exportChartData()">Export Chart Data</button>
+    <br>
+
+    <input type="file" id="inputFile" accept=".json">
+    <button class="button" onclick="importChartData()">Import</button>
+
+
     <script src="editor.js"></script>
+
   </body>
 </html>
