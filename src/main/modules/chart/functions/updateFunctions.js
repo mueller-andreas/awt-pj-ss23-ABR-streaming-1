@@ -1,7 +1,3 @@
-const chartDataTextarea = document.getElementById("chartData");
-
-chartDataTextarea.addEventListener("input", updateTextareaSize);
-
 // Define function to update necessary functions
 export function updateDataAndUI(chart) {
   // Update the first element
@@ -27,6 +23,10 @@ function updateChartDataText(chart) {
   }));
   document.getElementById("chartData").value = JSON.stringify(output);
 }
+
+const chartDataTextarea = document.getElementById("chartData");
+
+chartDataTextarea.addEventListener("input", updateTextareaSize);
 
 function updateTextareaSize() {
   chartDataTextarea.style.height = "auto";
