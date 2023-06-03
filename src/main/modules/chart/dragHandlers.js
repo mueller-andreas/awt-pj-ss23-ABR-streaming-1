@@ -29,12 +29,9 @@ export const onDrag = function (e, datasetIndex, index, value) {
     const next = data[index + 1].x;
     // Limit the x value of the current data point to be between the previous and next data points
     value.x = Math.max(prev, Math.min(next, value.x));
-  } else if (index === 0) {
-    // Limit the x value of the first data point to be less than or equal to the second data point
-    console.log("Error: The first data point should not be interactive");
   } else if (index === data.length - 1) {
     // Prevent horizontal dragging for the last data point
-    value.x = chart.scales.x.max;
+    //value.x = chart.scales.x.max;
   }
   updateDataAndUI(chart);
 };
