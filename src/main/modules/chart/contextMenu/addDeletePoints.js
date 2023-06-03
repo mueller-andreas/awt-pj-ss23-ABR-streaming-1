@@ -1,6 +1,5 @@
 // Create a custom event object to notify when the data changes
-//const dataChanged = new CustomEvent("dataChanged", { detail: chart });
-
+const dataChanged = new CustomEvent("dataChanged");
 // Define function to add data point
 export function addDataPoint(chart, position) {
   // Get the value of the new data point based on the position of the right-click
@@ -30,10 +29,9 @@ export function addDataPoint(chart, position) {
   contextMenu.style.display = "none";
 
   // Dispatch the custom event to notify that the data has changed
-  const dataChanged = new CustomEvent("dataChanged", { detail: chart });
+
   chart.canvas.dispatchEvent(dataChanged);
   chart.update();
-  //saveChartData(chart);
 }
 
 // Define function to delete data point
@@ -51,9 +49,8 @@ export function deleteDataPoint(chart, activeElements) {
     contextMenu.style.display = "none";
 
     // Dispatch the custom event to notify that the data has changed
-    const dataChanged = new CustomEvent("dataChanged", { detail: chart });
+
     chart.canvas.dispatchEvent(dataChanged);
     chart.update();
-    //saveChartData(chart);
   }
 }

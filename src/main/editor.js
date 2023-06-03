@@ -15,6 +15,7 @@ import {
   loadChartData,
 } from "./modules/chart/localStorage/localStorage.js";
 import { handleContextMenu } from "./modules/chart/contextMenu/contextMenu.js";
+import { exportGraphic } from "./modules/chart/eximport/graphic.js";
 
 // chart.js
 // Get the chart context
@@ -50,8 +51,8 @@ chart.canvas.addEventListener("contextmenu", (event) =>
 );
 
 // Add an event listener for the dataChanged event using the imported function and passing the chart object as a parameter
-chart.canvas.addEventListener("dataChanged", (event) => {
-  updateDataAndUI(event.detail);
+chart.canvas.addEventListener("dataChanged", () => {
+  updateDataAndUI(chart);
   saveChartData(chart);
 });
 
@@ -66,15 +67,6 @@ chartText.chart = chart;
 chartText.addEventListener("input", updateChartFromText);
 
 // Add an event listener to the export button
-document.getElementById("exportButton").addEventListener("click", function () {
-  // Get the chart's base64 image string
-  const chartImageURL = chart.toBase64Image();
-
-  // Create a virtual anchor tag
-  const downloadLink = document.createElement("a");
-  downloadLink.href = chartImageURL;
-  downloadLink.download = "chart.png";
-
-  // Trigger the download
-  downloadLink.click();
-});
+document
+  .getElementById("exportButton")
+  .addEventListener("click", () => exportGraphic(chart));
