@@ -30,8 +30,8 @@ export const onDrag = function (e, datasetIndex, index, value) {
     // Limit the x value of the current data point to be between the previous and next data points
     value.x = Math.max(prev, Math.min(next, value.x));
   } else if (index === data.length - 1) {
-    // Prevent horizontal dragging for the last data point
-    //value.x = chart.scales.x.max;
+    const prev = data[index - 1].x;
+    value.x = Math.max(prev, value.x);
   }
   updateDataAndUI(chart);
 };
@@ -55,7 +55,14 @@ export const onDragEnd = function (e, datasetIndex, index, value) {
       // Remove the next data point
       data.splice(nextIndex, 1);
     }
+  } else if (index === data.length - 1 && data.length > 2) {
+    const prevIndex = index - 1;
+    const prev = data[prevIndex].x;
+    if (value.x === prev) {
+      data.splice(index, 1);
+    }
   }
+
   updateDataAndUI(chart);
   chart.update();
   saveChartData(chart);
