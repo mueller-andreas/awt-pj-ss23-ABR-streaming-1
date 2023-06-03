@@ -1,3 +1,5 @@
+import { zoom } from "./zoom.js";
+
 const scales = {
   x: {
     type: "linear",
@@ -46,23 +48,7 @@ export const options = {
     dragData: {
       dragX: true,
     },
-    zoom: {
-      zoom: {
-        wheel: {
-          enabled: true,
-        },
-        mode: "xy",
-      },
-      pan: {
-        enabled: true,
-        mode: "",
-        scaleMode: "xy",
-      },
-      limits: {
-        y: { min: 0, max: 40000, minRange: 1000 },
-        x: { min: 0, max: 40000, minRange: 1000 },
-      },
-    },
+    zoom: zoom,
   },
   scales: scales,
 };
