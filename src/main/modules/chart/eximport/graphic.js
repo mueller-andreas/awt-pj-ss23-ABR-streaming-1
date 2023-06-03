@@ -1,4 +1,3 @@
-// Define a named function to export the chart as an image
 export function exportGraphic(chart) {
   // Get the chart's base64 image string
   const chartImageURL = chart.toBase64Image();

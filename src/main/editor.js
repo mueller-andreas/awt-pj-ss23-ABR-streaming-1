@@ -29,9 +29,6 @@ const chart = new Chart(chartContext, {
   plugins: [pluginCanvasBackgroundColor],
 });
 
-// // Add the chart events
-// chart.options.plugins.dragData = { onDragStart, onDrag, onDragEnd };
-
 // Add the chart events and bind this to the chart instance
 chart.options.plugins.dragData.onDragStart = onDragStart.bind(chart);
 chart.options.plugins.dragData.onDrag = onDrag.bind(chart);

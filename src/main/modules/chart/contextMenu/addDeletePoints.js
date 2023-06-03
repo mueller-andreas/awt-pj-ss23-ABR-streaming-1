@@ -49,7 +49,6 @@ export function deleteDataPoint(chart, activeElements) {
     contextMenu.style.display = "none";
 
     // Dispatch the custom event to notify that the data has changed
-
     chart.canvas.dispatchEvent(dataChanged);
     chart.update();
   }
