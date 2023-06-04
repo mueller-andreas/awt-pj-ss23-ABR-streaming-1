@@ -18,7 +18,6 @@ export function addDataPoint(chart, position) {
   // @Todo probably not needed anymore
   if (index === -1) {
     // If the label is greater than any existing data point, add it to the end of the array
-    console.log("Index == -1");
     index = chart.data.datasets[0].data.length;
   }
 
