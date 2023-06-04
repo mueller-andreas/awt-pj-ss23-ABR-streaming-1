@@ -60,8 +60,9 @@ document.addEventListener("click", () => {
 
 // event listener for changes in the textarea contents
 const chartText = document.getElementById("chartData");
-chartText.chart = chart;
-chartText.addEventListener("input", updateChartFromText);
+chartText.addEventListener("input", (event) => {
+  updateChartFromText(event, chart)
+});
 
 // Add an event listener to the export button
 document

@@ -33,7 +33,7 @@ function updateTextareaSize() {
   chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
 }
 
-export function updateChartFromText(event) {
+export function updateChartFromText(event, chart) {
   const origin = event.target;
   const text = origin.value.replace(/ /g, '');
 
@@ -56,7 +56,6 @@ export function updateChartFromText(event) {
   });
 
   // update chart
-  const chart = origin.chart;
   chart.data.datasets[0].data = [{x: 0, y:res[0].y}, ...res];
   chart.update();
 }
