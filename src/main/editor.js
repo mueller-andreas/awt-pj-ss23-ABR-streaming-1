@@ -9,6 +9,7 @@ import {
 import {
   updateDataAndUI,
   updateChartFromText,
+  tabNavigation,
 } from "./modules/chart/functions/updateFunctions.js";
 import {
   saveChartData,
@@ -63,6 +64,7 @@ const chartText = document.getElementById("chartData");
 chartText.addEventListener("input", (event) => {
   updateChartFromText(event, chart)
 });
+chartText.addEventListener("keydown", tabNavigation);
 
 // Add an event listener to the export button
 document

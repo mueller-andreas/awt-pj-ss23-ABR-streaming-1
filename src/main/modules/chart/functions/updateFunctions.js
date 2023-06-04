@@ -69,3 +69,20 @@ function insertTextSegment(textarea) {
   textarea.focus();
   textarea.selectionEnd= end + 11;
 }
+
+// move to next data point on tab in the textarea
+export function tabNavigation(event) {
+  var origin = event.target;
+  var text = origin.value;
+  if (event.key != "Tab") return
+  event.preventDefault()
+  var start = origin.selectionStart;
+  var end = origin.selectionEnd;
+  var nextColon = text.indexOf(":", end)
+  if (nextColon == -1) {
+    nextColon = text.length - 1;
+  } else {
+    nextColon += 1;
+  }
+  origin.selectionEnd = origin.selectionStart = nextColon;
+}
