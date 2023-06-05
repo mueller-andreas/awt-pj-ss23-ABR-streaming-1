@@ -1,4 +1,5 @@
-import { updateFirstElement } from "./editor.js";
+import { updateDataAndUI } from "./functions/updateFunctions.js";
+import { saveChartData } from "./localStorage/localStorage.js";
 export const onDragStart = function (e, datasetIndex, index, value) {
   // Prevent first data point to be dragged
   if (index === 0) {
@@ -34,9 +35,11 @@ export const onDrag = function (e, datasetIndex, index, value) {
     // Prevent horizontal dragging for the last data point
     value.x = chart.scales.x.max;
   }
-  // Make sure that the first data point is level with the second data point
-  updateFirstElement();
+  //   // Make sure that the first data point is level with the second data point
+  //   updateFirstElement();
+  updateDataAndUI(chart);
 };
+
 export const onDragEnd = function (e, datasetIndex, index, value) {
   const chart = this;
   // Get the data from the dataset
@@ -57,6 +60,7 @@ export const onDragEnd = function (e, datasetIndex, index, value) {
       data.splice(nextIndex, 1);
     }
   }
-  updateFirstElement();
+  updateDataAndUI(chart);
   chart.update();
+  saveChartData(chart);
 };

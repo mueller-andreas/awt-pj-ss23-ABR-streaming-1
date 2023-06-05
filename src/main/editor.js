@@ -39,7 +39,7 @@ loadChartData(chart);
 // Call the updateDataAndUI function to initialize the page
 updateDataAndUI(chart);
 
-// // Get the context menu element
+// Get the context menu element
 const contextMenu = document.getElementById("contextMenu");
 
 // Add an event listener for the contextmenu event
