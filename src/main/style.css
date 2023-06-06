@@ -49,7 +49,7 @@ textarea.invalid {
 }
 
 /* Style the exportButton */
-#exportButton {
+/* #graphicButton {
   background-color: #f1f1f1;
   color: black;
   padding: 10px 14px;
@@ -60,6 +60,19 @@ textarea.invalid {
 }
 
 /* Change the background color of the exportButton on hover */
-#exportButton:hover {
+/* #graphicButton:hover {
+  background-color: #ddd;
+} */
+.button {
+  background-color: #f1f1f1;
+  color: black;
+  padding: 6px 8px;
+  border: 2px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button:hover {
   background-color: #ddd;
 }

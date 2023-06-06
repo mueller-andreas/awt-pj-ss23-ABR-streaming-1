@@ -16,6 +16,10 @@ import {
 } from "./modules/chart/localStorage/localStorage.js";
 import { handleContextMenu } from "./modules/chart/contextMenu/contextMenu.js";
 import { exportGraphic } from "./modules/chart/eximport/graphic.js";
+import {
+  exportChartData,
+  importChartData,
+} from "./modules/chart/eximport/json.js";
 
 // chart.js
 // Get the chart context
@@ -65,5 +69,16 @@ chartText.addEventListener("input", updateChartFromText);
 
 // Add an event listener to the export button
 document
-  .getElementById("exportButton")
+  .getElementById("graphicButton")
   .addEventListener("click", () => exportGraphic(chart));
+
+// Add an event listener to the json export button
+document
+  .getElementById("jsonButtonExport")
+  .addEventListener("click", () => exportChartData(chart));
+
+// Add an event listener to the json import button
+document.getElementById("jsonButtonImport").addEventListener("click", () => {
+  importChartData(chart);
+  updateDataAndUI(chart);
+});
