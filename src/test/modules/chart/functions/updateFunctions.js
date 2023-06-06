@@ -33,7 +33,7 @@ function updateTextareaSize() {
   chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
 }
 
-export function updateChartFromText(event, chart) {
+export function updateChartFromText(event) {
   const origin = event.target;
   const text = origin.value.replace(/ /g, "");
 
@@ -57,9 +57,8 @@ export function updateChartFromText(event, chart) {
   });
 
   // update chart
-
-  chart.data.datasets[0].data = [{x: 0, y:res[0].y}, ...res];
-
+  const chart = origin.chart;
+  chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
   chart.update();
 }
 
@@ -73,23 +72,5 @@ function insertTextSegment(textarea) {
     textarea.value.substring(end);
   textarea.value = finText;
   textarea.focus();
-  textarea.selectionEnd= end + 11;
+  textarea.selectionEnd = end + 11;
 }
-
-// move to next data point on tab in the textarea
-export function tabNavigation(event) {
-  var origin = event.target;
-  var text = origin.value;
-  if (event.key != "Tab") return
-  event.preventDefault()
-  var start = origin.selectionStart;
-  var end = origin.selectionEnd;
-  var nextColon = text.indexOf(":", end)
-  if (nextColon == -1) {
-    nextColon = text.length - 1;
-  } else {
-    nextColon += 1;
-  }
-  origin.selectionEnd = origin.selectionStart = nextColon;
-}
-

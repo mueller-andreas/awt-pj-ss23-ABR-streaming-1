@@ -9,7 +9,6 @@ import {
 import {
   updateDataAndUI,
   updateChartFromText,
-  tabNavigation,
 } from "./modules/chart/functions/updateFunctions.js";
 import {
   saveChartData,
@@ -17,10 +16,6 @@ import {
 } from "./modules/chart/localStorage/localStorage.js";
 import { handleContextMenu } from "./modules/chart/contextMenu/contextMenu.js";
 import { exportGraphic } from "./modules/chart/eximport/graphic.js";
-import {
-  exportChartData,
-  importChartData,
-} from "./modules/chart/eximport/json.js";
 
 // chart.js
 // Get the chart context
@@ -65,23 +60,10 @@ document.addEventListener("click", () => {
 
 // event listener for changes in the textarea contents
 const chartText = document.getElementById("chartData");
-chartText.addEventListener("input", (event) => {
-  updateChartFromText(event, chart)
-});
-chartText.addEventListener("keydown", tabNavigation);
+chartText.chart = chart;
+chartText.addEventListener("input", updateChartFromText);
 
 // Add an event listener to the export button
 document
-  .getElementById("graphicButton")
+  .getElementById("exportButton")
   .addEventListener("click", () => exportGraphic(chart));
-
-// Add an event listener to the json export button
-document
-  .getElementById("jsonButtonExport")
-  .addEventListener("click", () => exportChartData(chart));
-
-// Add an event listener to the json import button
-// Use updateDataAndUI as callback function for updating the chart and textfield after import
-document.getElementById("jsonButtonImport").addEventListener("click", () => {
-  importChartData(chart, updateDataAndUI);
-});
