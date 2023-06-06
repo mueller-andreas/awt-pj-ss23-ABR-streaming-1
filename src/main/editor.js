@@ -66,9 +66,14 @@ document.addEventListener("click", () => {
 // event listener for changes in the textarea contents
 const chartText = document.getElementById("chartData");
 chartText.addEventListener("input", (event) => {
-  updateChartFromText(event, chart)
+  updateChartFromText(event, chart, saveChartData);
 });
 chartText.addEventListener("keydown", tabNavigation);
+
+// Copy current text to clipboard
+document.querySelector("#copy-button").onclick = () => {
+  navigator.clipboard.writeText(document.querySelector("#chartData").value);
+};
 
 // Add an event listener to the export button
 document
