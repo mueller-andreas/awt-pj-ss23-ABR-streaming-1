@@ -43,6 +43,31 @@ export const options = {
         },
       },
     },
+
+    zoom: {
+      zoom: {
+        wheel: {
+          enabled: true,
+        },
+        mode: "xy",
+      },
+      pan: {
+        enabled: false,
+        // mode: function () {
+        //   if (eventOutsideDataPoint) {
+        //     return "xy";
+        //   }
+        //   return "";
+        // },
+        // enabled: true,
+        // mode: "",
+        // scaleMode: "xy",
+      },
+      limits: {
+        y: { min: 0, max: 40000, minRange: 1000 },
+        x: { min: 0, max: 40000, minRange: 1000 },
+      },
+    },
     dragData: {
       dragX: true,
     },
