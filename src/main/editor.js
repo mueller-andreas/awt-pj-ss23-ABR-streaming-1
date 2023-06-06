@@ -66,7 +66,7 @@ document.addEventListener("click", () => {
 // event listener for changes in the textarea contents
 const chartText = document.getElementById("chartData");
 chartText.addEventListener("input", (event) => {
-  updateChartFromText(event, chart)
+  updateChartFromText(event, chart);
 });
 chartText.addEventListener("keydown", tabNavigation);
 
@@ -83,5 +83,5 @@ document
 // Add an event listener to the json import button
 // Use updateDataAndUI as callback function for updating the chart and textfield after import
 document.getElementById("jsonButtonImport").addEventListener("click", () => {
-  importChartData(chart, updateDataAndUI);
+  importChartData(chart, updateDataAndUI, saveChartData);
 });

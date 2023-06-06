@@ -30,7 +30,7 @@ function downloadFile(data, filename, type) {
   }
 }
 
-export function importChartData(chart, updateDataAndUI) {
+export function importChartData(chart, updateDataAndUI, saveChartData) {
   const input = document.getElementById("inputFile");
 
   // Check if a file was selected
@@ -57,6 +57,7 @@ export function importChartData(chart, updateDataAndUI) {
     chart.update();
     //updateChartDataText();
     updateDataAndUI(chart);
+    saveChartData(chart);
   };
 
   // Read the file as text
