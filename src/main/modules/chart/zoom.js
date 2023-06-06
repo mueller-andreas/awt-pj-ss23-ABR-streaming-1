@@ -7,19 +7,21 @@ export const zoom = {
     wheel: {
       enabled: true,
     },
-    mode: "xy",
+    mode: "",
+    scaleMode: "xy",
   },
   pan: {
     enabled: true,
-    mode: function () {
-      if (eventOutsideDataPoint) {
-        return "xy";
-      }
-      return "";
-    },
-    // enabled: true,
-    // mode: "",
-    // scaleMode: "xy",
+    // mode: function () {
+    //   if (eventOutsideDataPoint) {
+    //     return "xy";
+    //   }
+    //   return "";
+    // },
+    mode: "",
+    scaleMode: "xy",
+    threshold: 10,
+    modifierKey: "ctrl",
   },
   limits: {
     y: { min: 0, max: 40000, minRange: 1000 },
