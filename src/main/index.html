@@ -22,6 +22,21 @@
       <textarea id="chartData"></textarea>
     </div>
     <div id="contextMenu" class="context-menu"></div>
-    <button id="exportButton">Export Graphic</button>
+
+    <button id="graphicButton" class="button">Export Graphic</button>
+
+    <button id="jsonButtonExport" class="button">Export JSON</button>
+    <br />
+
+    <div>
+      <div>
+        Import Chart Data From JSON File: Please choose a file and then click on
+        "Import JSON File"
+      </div>
+      <input type="file" id="inputFile" accept=".json" />
+
+      <button id="jsonButtonImport">Import JSON File</button>
+    </div>
+
   </body>
 </html>
