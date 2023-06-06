@@ -78,7 +78,7 @@ document
   .addEventListener("click", () => exportChartData(chart));
 
 // Add an event listener to the json import button
+// Use updateDataAndUI as callback function for updating the chart and textfield after import
 document.getElementById("jsonButtonImport").addEventListener("click", () => {
-  importChartData(chart);
-  updateDataAndUI(chart);
+  importChartData(chart, updateDataAndUI);
 });

@@ -1,13 +1,10 @@
 export function exportChartData(chart) {
-  let chartData = chart.data.datasets[0].data;
-
+  const chartData = chart.data.datasets[0].data;
   // Map the x and y properties to speed and duration
-  let newData = chartData.map(function (item) {
-    return {
-      duration: item.x,
-      speed: item.y,
-    };
-  });
+  const newData = chartData.slice(1).map((point, index) => ({
+    duration: point.x - chartData[index].x,
+    speed: point.y,
+  }));
 
   let jsonData = JSON.stringify(newData);
   downloadFile(jsonData, "chartData.json", "application/json");
@@ -33,8 +30,8 @@ function downloadFile(data, filename, type) {
   }
 }
 
-export function importChartData(chart) {
-  let input = document.getElementById("inputFile");
+export function importChartData(chart, updateDataAndUI) {
+  const input = document.getElementById("inputFile");
 
   // Check if a file was selected
   if (!input.files || !input.files[0]) {
@@ -43,23 +40,23 @@ export function importChartData(chart) {
   }
 
   // Create a new FileReader
-  let reader = new FileReader();
+  const reader = new FileReader();
 
   // Set the function to be executed when the file is loaded
-  reader.onload = function () {
-    let data = JSON.parse(reader.result);
+  reader.onload = () => {
+    const newData = JSON.parse(reader.result);
 
-    // Map the duration and speed properties to x and y
-    let newData = data.map(function (item) {
-      return {
-        x: item.duration,
-        y: item.speed,
-      };
+    let sum = 0;
+    const res = newData.map((parameter) => {
+      sum += parameter.duration;
+      return { x: sum, y: parameter.speed };
     });
 
-    chart.data.datasets[0].data = newData;
+    // update chart
+    chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
     chart.update();
     //updateChartDataText();
+    updateDataAndUI(chart);
   };
 
   // Read the file as text
