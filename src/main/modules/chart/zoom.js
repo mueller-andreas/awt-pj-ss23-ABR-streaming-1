@@ -12,16 +12,17 @@ export const zoom = {
   },
   pan: {
     enabled: true,
-    // mode: function () {
-    //   if (eventOutsideDataPoint) {
-    //     return "xy";
-    //   }
-    //   return "";
-    // },
+    // Interrupt pan if the click happened on a data point
+    // Fixes the interaction between drag an zoom/pan plugins
+    onPanStart: () => {
+      if (eventOutsideDataPoint) {
+        return true;
+      }
+      return false;
+    },
     mode: "",
     scaleMode: "xy",
     threshold: 10,
-    modifierKey: "ctrl",
   },
   limits: {
     y: { min: 0, max: 40000, minRange: 1000 },

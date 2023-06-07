@@ -22,8 +22,8 @@ const scales = {
       // Don't show the max and min value of the data, if it would get rendered
       callback: (val, index, ticks) => {
         if (ticks.length === 6) {
-          console.log(val);
-          console.log(ticks);
+          // console.log(val);
+          // console.log(ticks);
           return index === 0 || index === ticks.length - 1
             ? null
             : Math.round(val / 100) * 100;

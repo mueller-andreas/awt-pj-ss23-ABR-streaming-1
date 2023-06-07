@@ -2,11 +2,14 @@ import { updateDataAndUI } from "./functions/updateFunctions.js";
 import { saveChartData } from "./localStorage/localStorage.js";
 import { changeEventOutsideDataPoint } from "./zoom.js";
 export const onDragStart = function (e, datasetIndex, index, value) {
+  // Disable panning
+  changeEventOutsideDataPoint(false);
   // Prevent first data point to be dragged
   if (index === 0) {
     return false;
   }
-  changeEventOutsideDataPoint(false);
+  const chart = this;
+  console.log(chart.drag);
 };
 
 export const onDrag = function (e, datasetIndex, index, value) {
@@ -67,5 +70,6 @@ export const onDragEnd = function (e, datasetIndex, index, value) {
   updateDataAndUI(chart);
   chart.update();
   saveChartData(chart);
+  // Enable panning
   changeEventOutsideDataPoint(true);
 };
