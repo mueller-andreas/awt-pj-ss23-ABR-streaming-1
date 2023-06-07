@@ -8,7 +8,6 @@ export const onDragStart = function (e, datasetIndex, index, value) {
   if (index === 0) {
     return false;
   }
-  const chart = this;
 };
 
 export const onDrag = function (e, datasetIndex, index, value) {
