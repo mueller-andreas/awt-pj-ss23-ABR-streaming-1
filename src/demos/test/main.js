@@ -1,10 +1,8 @@
+updateText(document.querySelector("#text"))
+
 document.querySelector("#text").addEventListener('input', function(event) {
     let origin = event.target;
-    let text = origin.value.replace(/ /g,'');
-
-    if (event.data === "{") {
-        insertData(origin)
-    }
+    text = origin.textContent
 
     let pattern = /^\[\{"duration":\d+,"speed":\d+\}(,\{"duration":\d+,"speed":\d+\})*]$/
 
@@ -13,7 +11,18 @@ document.querySelector("#text").addEventListener('input', function(event) {
     if (result) {
 
     }
+    updateText(origin)
+
 });
+
+function updateText(target) {
+    let text = target.innerText;
+    let res = text
+        .replaceAll("duration", "<span class='key'>duration</span>")
+        .replaceAll("speed", "<span class='key'>speed</span>")
+        .replace(/\d+/g, "<span class='value'>$&</span>")
+    target.innerHTML = res;
+}
 
 function insertData(textarea) {
     var start = textarea.selectionStart;

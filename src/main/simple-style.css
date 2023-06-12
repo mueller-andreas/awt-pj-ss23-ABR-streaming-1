@@ -1,0 +1,82 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --form-element-bg-color: #f5f5f5;
+    --form-element-bg-color-hover: #ddd;
+}
+
+body {
+    font-family: system-ui;
+}
+
+main {
+    width: min(800px, 100% - 4rem);
+    margin-inline: auto;
+}
+
+canvas {
+    height: 400px;
+}
+
+form {
+    position: relative;
+    margin-inline: 1em;
+}
+
+form:has(textarea.invalid)::before {
+    content: "⚠";
+    color: red;
+    position: absolute;
+    left: -1.5em;
+    top: 0;
+}
+
+textarea {
+    width: 100%;
+    padding: 0.8em;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: var(--form-element-bg-color);
+    resize: none;
+}
+
+textarea.invalid {
+    outline: auto 1px red;
+}
+
+form button {
+    background-color: var(--form-element-bg-color);
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5em;
+}
+
+form button:hover {
+    background-color: var(--form-element-bg-color-hover);
+}
+
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+.context-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: #000;
+    text-decoration: none;
+}
+
+.context-menu a:hover {
+    background-color: #eee;
+}

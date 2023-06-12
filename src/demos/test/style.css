@@ -22,16 +22,27 @@ form {
     width: 100%;
 }
 
-textarea {
+#text {
     width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
     resize: none;
+    font-family: monospace;
+    font-size: 16px;
 }
 
-textarea.invalid {
+#text.invalid {
     outline: red auto 1.5px;
 }
 
-form:has(textarea.invalid)::after{
-    content: "Invalid JSON";
+#text span.key {
+    color: darkblue;
+    font-style:italic;
+}
+
+#text span.value {
+    color: darkgreen;
 }
 
