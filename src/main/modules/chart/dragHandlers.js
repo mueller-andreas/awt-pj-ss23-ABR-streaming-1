@@ -43,9 +43,6 @@ export const onDrag = function (e, datasetIndex, index, value) {
     value.x = Math.max(prev, Math.min(next, value.x));
   } else if (index === data.length - 1) {
     value.x = Math.max(prev, value.x);
-    // Limit the x value of the current data point so that the last data point does not cross the maximum
-  } else if (checkbox.checked) {
-    value.x = Math.max(prev, Math.min(valueSegMax, value.x));
   }
 
   // Set difference of oldValue and diffX
