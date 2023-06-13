@@ -29,10 +29,6 @@ export const onDrag = function (e, datasetIndex, index, value) {
   // update data point with rounded y-value
   data[index].y = roundedY;
 
-  // Set difference of oldValue and
-  const diffX = data[index].x - oldValue;
-  oldValue = data[index].x;
-
   // Check if the current data point is not the first or last
   if (index > 0 && index < data.length - 1) {
     // Get the previous and next data points
@@ -45,13 +41,12 @@ export const onDrag = function (e, datasetIndex, index, value) {
     value.x = Math.max(prev, value.x);
   }
 
+  // Set difference of oldValue and diffX
+  const diffX = data[index].x - oldValue;
+  oldValue = data[index].x;
+
   const checkbox = document.getElementById("lockSegButton");
   if (checkbox.checked) {
-    console.log("Is checked");
-    const prev = data[index - 1].x;
-    value.x = Math.max(prev, value.x);
-    // Change following points by the same value as the current point
-    //data[index + 1].x = data[index + 1].x + diffX;
     data.map((point, i) => {
       // Only change points after the current index
       if (i > index) {
