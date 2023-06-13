@@ -21,7 +21,7 @@ function updateChartDataText(chart) {
     duration: point.x - data[index].x,
     speed: point.y,
   }));
-  document.getElementById("chartData").value = JSON.stringify(output);
+  document.getElementById("chartData").innerText = JSON.stringify(output);
 }
 
 const chartDataTextarea = document.getElementById("chartData");
@@ -35,10 +35,10 @@ function updateTextareaSize() {
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
-  const text = origin.value.replace(/ /g, "");
+  const text = origin.innerText.replace(/ /g, "");
 
   if (event.data == "{") {
-    insertTextSegment(origin);
+    // insertTextSegment(origin);
   }
 
   const pattern =
@@ -67,12 +67,12 @@ export function updateChartFromText(event, chart, saveChartData) {
 function insertTextSegment(textarea) {
   var start = textarea.selectionStart;
   var end = textarea.selectionEnd;
-  var sel = textarea.value.substring(start, end);
+  var sel = textarea.innerText.substring(start, end);
   var finText =
-    textarea.value.substring(0, start) +
+    textarea.innerText.substring(0, start) +
     '"duration":,"speed":}' +
-    textarea.value.substring(end);
-  textarea.value = finText;
+    textarea.innerText.substring(end);
+  textarea.innerText = finText;
   textarea.focus();
   textarea.selectionEnd = end + 11;
 }
@@ -80,7 +80,7 @@ function insertTextSegment(textarea) {
 // move to next data point on tab in the textarea
 export function tabNavigation(event) {
   var origin = event.target;
-  var text = origin.value;
+  var text = origin.innerText;
   if (event.key != "Tab") return;
   event.preventDefault();
   var start = origin.selectionStart;

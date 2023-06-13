@@ -72,7 +72,7 @@ chartText.addEventListener("keydown", tabNavigation);
 
 // Copy current text to clipboard
 document.querySelector("#copy-button").onclick = () => {
-  navigator.clipboard.writeText(document.querySelector("#chartData").value);
+  navigator.clipboard.writeText(document.querySelector("#chartData").innerText);
 };
 
 // Add an event listener to the export button
