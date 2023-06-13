@@ -1,0 +1,17 @@
+{
+  "name": "awt-pj-ss23-abr-streaming-1",
+  "version": "1.0.0",
+  "description": "Adaptive Bitrate (ABR) Streaming is the de-facto standard for delivering video and audio content over the Internet. Dynamically adapting to the varying throughput on the client side is a key feature for media players. A testbed that simulates different network conditions based on pre-defined trajectories is a valuable tool to improve existing ABR algorithms in the media players. As part of this project you will implement a web-based editor to define different bandwidth trajectories. The editor is supposed to be an easy to use tool that outputs the graphically defined trajectory in JSON format, e.g [{duration:5000, speed:300},{duration:5000, speed:500}].",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext .js src"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
+  }
+}
