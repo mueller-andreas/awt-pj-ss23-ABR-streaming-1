@@ -93,5 +93,3 @@ export const onDragEnd = function (e, datasetIndex, index, value) {
   // Enable panning
   changeEventOutsideDataPoint(true);
 };
-
-export function isLockedSeg(chart) {}

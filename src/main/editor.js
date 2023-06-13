@@ -5,7 +5,6 @@ import {
   onDragStart,
   onDrag,
   onDragEnd,
-  isLockedSeg,
 } from "./modules/chart/dragHandlers.js";
 import {
   updateDataAndUI,
@@ -75,11 +74,6 @@ chartText.addEventListener("keydown", tabNavigation);
 document.querySelector("#copy-button").onclick = () => {
   navigator.clipboard.writeText(document.querySelector("#chartData").value);
 };
-
-// Add an event listener to the lock segements button
-document
-  .getElementById("lockSegButton")
-  .addEventListener("click", () => isLockedSeg(chart));
 
 // Add an event listener to the export button
 document
