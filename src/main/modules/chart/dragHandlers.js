@@ -1,13 +1,17 @@
 import { updateDataAndUI } from "./functions/updateFunctions.js";
 import { saveChartData } from "./localStorage/localStorage.js";
 import { changeEventOutsideDataPoint } from "./zoom.js";
+let oldValue = 0;
 export const onDragStart = function (e, datasetIndex, index, value) {
-  // Disable panning
-  changeEventOutsideDataPoint(false);
   // Prevent first data point to be dragged
   if (index === 0) {
     return false;
   }
+  const chart = this;
+  // Initialize code for locked segments
+  oldValue = chart.data.datasets[datasetIndex].data[index].x;
+  // Disable panning
+  changeEventOutsideDataPoint(false);
 };
 
 export const onDrag = function (e, datasetIndex, index, value) {
@@ -15,12 +19,13 @@ export const onDrag = function (e, datasetIndex, index, value) {
   const data = chart.data.datasets[datasetIndex].data;
 
   // Round x-value
-  let roundedX = Math.round(value.x / 100) * 100;
+  const roundedX = Math.round(value.x / 100) * 100;
+
   // update data point with rounded x-value
   data[index].x = roundedX;
 
   // Round y-value
-  let roundedY = Math.round(value.y / 100) * 100;
+  const roundedY = Math.round(value.y / 100) * 100;
   // update data point with rounded y-value
   data[index].y = roundedY;
 
@@ -34,6 +39,23 @@ export const onDrag = function (e, datasetIndex, index, value) {
   } else if (index === data.length - 1) {
     const prev = data[index - 1].x;
     value.x = Math.max(prev, value.x);
+  }
+
+  // Set difference of oldValue and diffX
+  const diffX = data[index].x - oldValue;
+  oldValue = data[index].x;
+
+  const checkbox = document.getElementById("lockSegButton");
+  if (checkbox.checked) {
+    data.map((point, i) => {
+      // Only change points after the current index
+      if (i > index) {
+        // Add diffX to the x value of each point
+        point.x += diffX;
+      }
+      // Return the modified point
+      return point;
+    });
   }
   updateDataAndUI(chart);
 };
