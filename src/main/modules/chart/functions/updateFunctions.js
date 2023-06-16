@@ -10,53 +10,52 @@ export function updateDataAndUI(chart) {
 
 // Define function to keep the first element level with the second
 function updateFirstElement(chart) {
-  const data = chart.data.datasets[0].data;
+  const { data } = chart.data.datasets[0];
   data[0].y = data[1].y;
 }
 
 // Define function to update the text area
 function updateChartDataText(chart) {
-  const data = chart.data.datasets[0].data;
+  const { data } = chart.data.datasets[0];
   const output = data.slice(1).map((point, index) => ({
     duration: point.x - data[index].x,
     speed: point.y,
   }));
-  const chartText = document.getElementById("chartData");
+  const chartText = document.getElementById('chartData');
   chartText.innerText = JSON.stringify(output);
   updateText(chartText);
 }
 
-const chartDataTextarea = document.getElementById("chartData");
+const chartDataTextarea = document.getElementById('chartData');
 
-chartDataTextarea.addEventListener("input", updateTextareaSize);
+chartDataTextarea.addEventListener('input', updateTextareaSize);
 
 function updateTextareaSize() {
-  chartDataTextarea.style.height = "auto";
-  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
+  chartDataTextarea.style.height = 'auto';
+  chartDataTextarea.style.height = `${chartDataTextarea.scrollHeight + 5}px`;
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
-  const text = origin.innerText.replace(/ /g, "");
+  const text = origin.innerText.replace(/ /g, '');
 
-  if (event.data == "{") {
-    // insertTextSegment(origin);
+  if (event.data === '{') {
+    insertTextSegment(origin);
   }
 
-  const pattern =
-    /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
+  const pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
   const result = pattern.test(text);
-  origin.classList.toggle("invalid", !result);
-  let offset = Cursor.getCurrentCursorPosition(origin)
+  origin.classList.toggle('invalid', !result);
+  const offset = Cursor.getCurrentCursorPosition(origin);
 
-  updateText(origin)
-  Cursor.setCurrentCursorPosition(offset, origin)
+  updateText(origin);
+  Cursor.setCurrentCursorPosition(offset, origin);
   if (!result) return;
 
   const newData = JSON.parse(text);
 
   let sum = 0;
-  let res = newData.map((parameter) => {
+  const res = newData.map((parameter) => {
     sum += parameter.duration;
     return { x: sum, y: parameter.speed };
   });
@@ -69,22 +68,19 @@ export function updateChartFromText(event, chart, saveChartData) {
 }
 
 export function updateText(target) {
-  let text = target.innerText;
-  let res = text
-    .replaceAll("duration", "<span class='key'>duration</span>")
-    .replaceAll("speed", "<span class='key'>speed</span>")
-    .replace(/\d+/g, "<span class='value'>$&</span>")
+  const text = target.innerText;
+  const res = text
+    .replaceAll('duration', '<span class="key">duration</span>')
+    .replaceAll('speed', '<span class="key">speed</span>')
+    .replace(/\d+/g, '<span class="value">$&</span>');
   target.innerHTML = res;
 }
 
 function insertTextSegment(textarea) {
-  var start = textarea.selectionStart;
-  var end = textarea.selectionEnd;
-  var sel = textarea.innerText.substring(start, end);
-  var finText =
-    textarea.innerText.substring(0, start) +
-    '"duration":,"speed":}' +
-    textarea.innerText.substring(end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const sel = textarea.innerText.substring(start, end);
+  const finText = `${textarea.innerText.substring(0, start)}"duration":,"speed":}${textarea.innerText.substring(end)}`;
   textarea.innerText = finText;
   textarea.focus();
   textarea.selectionEnd = end + 11;
@@ -111,89 +107,89 @@ export function tabNavigation(event) {
 // https://stackoverflow.com/a/41034697/3480193
 class Cursor {
   static getCurrentCursorPosition(parentElement) {
-      var selection = window.getSelection(),
-          charCount = -1,
-          node;
-      
-      if (selection.focusNode) {
-          if (Cursor._isChildOf(selection.focusNode, parentElement)) {
-              node = selection.focusNode; 
-              charCount = selection.focusOffset;
-              
-              while (node) {
-                  if (node === parentElement) {
-                      break;
-                  }
+    const selection = window.getSelection();
+    let charCount = -1;
+    let node;
 
-                  if (node.previousSibling) {
-                      node = node.previousSibling;
-                      charCount += node.textContent.length;
-                  } else {
-                      node = node.parentNode;
-                      if (node === null) {
-                          break;
-                      }
-                  }
-              }
+    if (selection.focusNode) {
+      if (Cursor._isChildOf(selection.focusNode, parentElement)) {
+        node = selection.focusNode;
+        charCount = selection.focusOffset;
+
+        while (node) {
+          if (node === parentElement) {
+            break;
           }
-      }
-      
-      return charCount;
-  }
-  
-  static setCurrentCursorPosition(chars, element) {
-      if (chars >= 0) {
-          var selection = window.getSelection();
-          
-          let range = Cursor._createRange(element, { count: chars });
 
-          if (range) {
-              range.collapse(false);
-              selection.removeAllRanges();
-              selection.addRange(range);
-          }
-      }
-  }
-  
-  static _createRange(node, chars, range) {
-      if (!range) {
-          range = document.createRange()
-          range.selectNode(node);
-          range.setStart(node, 0);
-      }
-
-      if (chars.count === 0) {
-          range.setEnd(node, chars.count);
-      } else if (node && chars.count >0) {
-          if (node.nodeType === Node.TEXT_NODE) {
-              if (node.textContent.length < chars.count) {
-                  chars.count -= node.textContent.length;
-              } else {
-                  range.setEnd(node, chars.count);
-                  chars.count = 0;
-              }
+          if (node.previousSibling) {
+            node = node.previousSibling;
+            charCount += node.textContent.length;
           } else {
-              for (var lp = 0; lp < node.childNodes.length; lp++) {
-                  range = Cursor._createRange(node.childNodes[lp], chars, range);
-
-                  if (chars.count === 0) {
-                  break;
-                  }
-              }
+            node = node.parentNode;
+            if (node === null) {
+              break;
+            }
           }
-      } 
+        }
+      }
+    }
 
-      return range;
+    return charCount;
+  }
+
+  static setCurrentCursorPosition(chars, element) {
+    if (chars >= 0) {
+      const selection = window.getSelection();
+
+      const range = Cursor._createRange(element, { count: chars });
+
+      if (range) {
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+  }
+
+  static _createRange(node, chars, range) {
+    if (!range) {
+      range = document.createRange()
+      range.selectNode(node);
+      range.setStart(node, 0);
+    }
+
+    if (chars.count === 0) {
+      range.setEnd(node, chars.count);
+    } else if (node && chars.count >0) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.textContent.length < chars.count) {
+          chars.count -= node.textContent.length;
+        } else {
+          range.setEnd(node, chars.count);
+          chars.count = 0;
+        }
+      } else {
+        for (var lp = 0; lp < node.childNodes.length; lp++) {
+          range = Cursor._createRange(node.childNodes[lp], chars, range);
+
+          if (chars.count === 0) {
+            break;
+          }
+        }
+      }
+    } 
+
+    return range;
   }
   
   static _isChildOf(node, parentElement) {
-      while (node !== null) {
-          if (node === parentElement) {
-              return true;
-          }
-          node = node.parentNode;
+    while (node !== null) {
+      if (node === parentElement) {
+        return true;
       }
+      node = node.parentNode;
+    }
 
-      return false;
+    return false;
   }
 }
