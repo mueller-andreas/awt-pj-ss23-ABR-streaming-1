@@ -38,14 +38,15 @@ form {
 }
 
 #chartData {
-  font-family: monospace;
-  font-size: 16px;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 19px;
   width: 100%;
   padding: 12px 20px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   resize: none;
 }
 
@@ -65,4 +66,17 @@ form {
 
 .button:hover {
   background-color: #ddd;
+}
+
+span.key {
+  color: #0451a5;
+}
+
+span.value {
+  color: #09885a;
+}
+
+span.error {
+  color: #ff0000;
+  text-decoration: underline;
 }

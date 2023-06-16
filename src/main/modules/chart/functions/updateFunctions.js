@@ -21,7 +21,9 @@ function updateChartDataText(chart) {
     duration: point.x - data[index].x,
     speed: point.y,
   }));
-  document.getElementById("chartData").innerText = JSON.stringify(output);
+  const chartText = document.getElementById("chartData");
+  chartText.innerText = JSON.stringify(output);
+  updateText(chartText);
 }
 
 const chartDataTextarea = document.getElementById("chartData");
@@ -45,7 +47,10 @@ export function updateChartFromText(event, chart, saveChartData) {
     /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
   const result = pattern.test(text);
   origin.classList.toggle("invalid", !result);
+  let offset = Cursor.getCurrentCursorPosition(origin)
 
+  updateText(origin)
+  Cursor.setCurrentCursorPosition(offset, origin)
   if (!result) return;
 
   const newData = JSON.parse(text);
@@ -59,9 +64,17 @@ export function updateChartFromText(event, chart, saveChartData) {
   // update chart
 
   chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
-
   chart.update();
   saveChartData(chart);
+}
+
+export function updateText(target) {
+  let text = target.innerText;
+  let res = text
+    .replaceAll("duration", "<span class='key'>duration</span>")
+    .replaceAll("speed", "<span class='key'>speed</span>")
+    .replace(/\d+/g, "<span class='value'>$&</span>")
+  target.innerHTML = res;
 }
 
 function insertTextSegment(textarea) {
@@ -92,4 +105,95 @@ export function tabNavigation(event) {
     nextColon += 1;
   }
   origin.selectionEnd = origin.selectionStart = nextColon;
+}
+
+// Credit to Liam (Stack Overflow)
+// https://stackoverflow.com/a/41034697/3480193
+class Cursor {
+  static getCurrentCursorPosition(parentElement) {
+      var selection = window.getSelection(),
+          charCount = -1,
+          node;
+      
+      if (selection.focusNode) {
+          if (Cursor._isChildOf(selection.focusNode, parentElement)) {
+              node = selection.focusNode; 
+              charCount = selection.focusOffset;
+              
+              while (node) {
+                  if (node === parentElement) {
+                      break;
+                  }
+
+                  if (node.previousSibling) {
+                      node = node.previousSibling;
+                      charCount += node.textContent.length;
+                  } else {
+                      node = node.parentNode;
+                      if (node === null) {
+                          break;
+                      }
+                  }
+              }
+          }
+      }
+      
+      return charCount;
+  }
+  
+  static setCurrentCursorPosition(chars, element) {
+      if (chars >= 0) {
+          var selection = window.getSelection();
+          
+          let range = Cursor._createRange(element, { count: chars });
+
+          if (range) {
+              range.collapse(false);
+              selection.removeAllRanges();
+              selection.addRange(range);
+          }
+      }
+  }
+  
+  static _createRange(node, chars, range) {
+      if (!range) {
+          range = document.createRange()
+          range.selectNode(node);
+          range.setStart(node, 0);
+      }
+
+      if (chars.count === 0) {
+          range.setEnd(node, chars.count);
+      } else if (node && chars.count >0) {
+          if (node.nodeType === Node.TEXT_NODE) {
+              if (node.textContent.length < chars.count) {
+                  chars.count -= node.textContent.length;
+              } else {
+                  range.setEnd(node, chars.count);
+                  chars.count = 0;
+              }
+          } else {
+              for (var lp = 0; lp < node.childNodes.length; lp++) {
+                  range = Cursor._createRange(node.childNodes[lp], chars, range);
+
+                  if (chars.count === 0) {
+                  break;
+                  }
+              }
+          }
+      } 
+
+      return range;
+  }
+  
+  static _isChildOf(node, parentElement) {
+      while (node !== null) {
+          if (node === parentElement) {
+              return true;
+          }
+          node = node.parentNode;
+      }
+
+      return false;
+  }
 }

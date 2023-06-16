@@ -10,6 +10,7 @@ import {
   updateDataAndUI,
   updateChartFromText,
   tabNavigation,
+  updateText,
 } from "./modules/chart/functions/updateFunctions.js";
 import {
   saveChartData,
@@ -68,6 +69,9 @@ const chartText = document.getElementById("chartData");
 chartText.addEventListener("input", (event) => {
   updateChartFromText(event, chart, saveChartData);
 });
+
+updateText(chartText);
+
 chartText.addEventListener("keydown", tabNavigation);
 
 // Copy current text to clipboard
