@@ -25,7 +25,7 @@ export const zoom = {
     threshold: 10,
   },
   limits: {
-    y: { min: 0, max: 40000, minRange: 1000 },
-    x: { min: 0, max: 40000, minRange: 1000 },
+    y: { min: 0, max: 300000, minRange: 5000 },
+    x: { min: 0, max: 40000, minRange: 4000 },
   },
 };

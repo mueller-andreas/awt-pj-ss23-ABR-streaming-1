@@ -85,6 +85,16 @@ document
   .getElementById("jsonButtonExport")
   .addEventListener("click", () => exportChartData(chart));
 
+// Add an event listener to the zoomGraphButton button
+document.getElementById("zoomGraphButton").addEventListener("click", () => {
+  const data = chart.data.datasets[0].data;
+  const xMax = Math.max(...data.map((d) => d.x));
+  const yMax = Math.max(...data.map((d) => d.y));
+
+  chart.zoomScale("x", { min: 0, max: xMax });
+  chart.zoomScale("y", { min: 0, max: yMax });
+});
+
 // Add an event listener to the json import button
 // Use updateDataAndUI as callback function for updating the chart and textfield after import
 document.getElementById("jsonButtonImport").addEventListener("click", () => {
