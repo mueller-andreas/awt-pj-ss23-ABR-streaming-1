@@ -90,17 +90,15 @@ function insertTextSegment(textarea) {
 
 // move to next data point on tab in the textarea
 export function tabNavigation(event) {
-  var origin = event.target;
-  var text = origin.innerText;
-  if (event.key != "Tab") return;
+  const origin = event.target;
+  const text = origin.innerText;
+  if (event.key !== 'Tab') return;
+
   event.preventDefault();
-  var start = origin.selectionStart;
-  var end = origin.selectionEnd;
-  var nextColon = text.indexOf(":", end);
-  if (nextColon == -1) {
-    nextColon = text.length - 1;
-  } else {
-    nextColon += 1;
+  const carrot = Cursor.getCurrentCursorPosition(origin);
+  let nextColon = text.indexOf(':', carrot);
+  if (nextColon === -1) {
+    nextColon = text.indexOf(':');
   }
-  origin.selectionEnd = origin.selectionStart = nextColon;
+  Cursor.setCurrentCursorPosition(nextColon + 1, origin);
 }
