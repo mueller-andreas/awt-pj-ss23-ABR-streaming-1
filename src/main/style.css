@@ -48,6 +48,7 @@ form {
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #ffffff;
+  caret-color: black;
   resize: none;
 }
 
@@ -82,6 +83,6 @@ form {
 }
 
 #chartData span.error {
-  color: #ff0000;
-  text-decoration: underline;
+  /* color: #ff0000; */
+  text-decoration: #ff0000 dotted underline;
 }
