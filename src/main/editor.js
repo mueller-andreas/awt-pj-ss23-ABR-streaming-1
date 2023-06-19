@@ -10,8 +10,9 @@ import {
   updateDataAndUI,
   updateChartFromText,
   tabNavigation,
-  updateText,
-} from "./modules/chart/functions/updateFunctions.js";
+  formatJSONText,
+  highlightCurrentSegment,
+} from './modules/chart/functions/updateFunctions.js';
 import {
   saveChartData,
   loadChartData,
@@ -68,7 +69,9 @@ chartText.addEventListener('input', (event) => {
   updateChartFromText(event, chart, saveChartData);
 });
 
-updateText(chartText);
+chartText.addEventListener('click', highlightCurrentSegment);
+
+formatJSONText(chartText);
 
 chartText.addEventListener("keydown", tabNavigation);
 

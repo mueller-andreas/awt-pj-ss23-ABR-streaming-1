@@ -42,6 +42,7 @@ form {
   font-size: 14px;
   line-height: 19px;
   width: 100%;
+  height: auto;
   padding: 12px 20px;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -68,15 +69,19 @@ form {
   background-color: #ddd;
 }
 
-span.key {
+#chartData * {
+  pointer-events: none;
+}
+
+#chartData span.key {
   color: #0451a5;
 }
 
-span.value {
+#chartData span.value {
   color: #09885a;
 }
 
-span.error {
+#chartData span.error {
   color: #ff0000;
   text-decoration: underline;
 }

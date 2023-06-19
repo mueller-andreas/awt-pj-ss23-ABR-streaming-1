@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Cursor from './Cursor.js';
 
 // Define function to update necessary functions
@@ -25,7 +26,7 @@ function updateChartDataText(chart) {
   }));
   const chartText = document.getElementById('chartData');
   chartText.innerText = JSON.stringify(output);
-  updateText(chartText);
+  formatJSONText(chartText);
 }
 
 const chartDataTextarea = document.getElementById('chartData');
@@ -39,19 +40,20 @@ function updateTextareaSize() {
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
-  const text = origin.innerText.replaceAll(' ', '');
+  const text = origin.innerText // .replaceAll(' ', '');
 
-  if (event.data === '{') {
+  if (event.data === '{' && text[Cursor.getCurrentCursorPosition(origin) - 2] === ',' && (text[Cursor.getCurrentCursorPosition(origin)] === '{' || text[Cursor.getCurrentCursorPosition(origin)] === ']')) {
     insertTextSegment(origin);
   }
 
-  const pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
+  const pattern = /^\[\{\s*"duration"\s*:[1-9]\d*,\s*"speed"\s*:[1-9]\d*\}(,\{\s*"duration"\s*:[1-9]\d*,\s*"speed"\s*:[1-9]\d*\})*\]$/;
   const result = pattern.test(text);
-  console.log(text, result);
   origin.classList.toggle('invalid', !result);
   const offset = Cursor.getCurrentCursorPosition(origin);
 
-  updateText(origin);
+  formatJSONText(origin);
+  updateTextareaSize();
+
   Cursor.setCurrentCursorPosition(offset, origin);
   if (!result) return;
 
@@ -70,7 +72,7 @@ export function updateChartFromText(event, chart, saveChartData) {
   saveChartData(chart);
 }
 
-export function updateText(target) {
+export function formatJSONText(target) {
   const text = target.innerText;
   const res = text
     .replaceAll('duration', '<span class="key">duration</span>')
@@ -84,8 +86,24 @@ function insertTextSegment(textarea) {
   const text = textarea.innerText;
   const result = `${text.slice(0, carrot)}"duration":,"speed":},${text.slice(carrot)}`;
   textarea.innerText = result;
-  updateText(textarea);
+  formatJSONText(textarea);
   Cursor.setCurrentCursorPosition(carrot + 11, textarea);
+}
+
+function getCurrentSegmentIndex(textarea) {
+  const carrot = Cursor.getCurrentCursorPosition(textarea);
+  const text = textarea.innerText;
+  let currentSegment = -1;
+  for (let i = 1; i < carrot; i += 1) {
+    if (text[i] === '{') {
+      currentSegment += 1;
+    }
+  }
+  return currentSegment;
+}
+
+export function highlightCurrentSegment(event) {
+  const currentSegment = getCurrentSegmentIndex(event.target);
 }
 
 // move to next data point on tab in the textarea
