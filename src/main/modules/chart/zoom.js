@@ -1,21 +1,20 @@
 export let eventOutsideDataPoint = true;
-export const changeEventOutsideDataPoint = (newIsEventOutside) =>
-  (eventOutsideDataPoint = newIsEventOutside);
+export const changeEventOutsideDataPoint = (newIsEventOutside) => (eventOutsideDataPoint = newIsEventOutside);
 
 export const zoom = {
   zoom: {
     wheel: {
       enabled: true,
     },
-    mode: "xy",
+    mode: 'xy',
   },
   pan: {
     enabled: true,
     mode: function () {
       if (eventOutsideDataPoint) {
-        return "xy";
+        return 'xy';
       }
-      return "";
+      return '';
     },
     // enabled: true,
     // mode: "",

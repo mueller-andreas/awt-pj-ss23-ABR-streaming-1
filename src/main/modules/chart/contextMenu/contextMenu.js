@@ -1,4 +1,4 @@
-import { addDataPoint, deleteDataPoint } from "./addDeletePoints.js";
+import { addDataPoint, deleteDataPoint } from './addDeletePoints.js';
 // Export a function to handle the contextmenu event
 export function handleContextMenu(event, chart, contextMenu) {
   // Prevent the default context menu from appearing
@@ -16,10 +16,10 @@ export function handleContextMenu(event, chart, contextMenu) {
 
   // Check if the right-click occurred within the chart area
   if (
-    eventX >= chartArea.left &&
-    eventX <= chartArea.right &&
-    eventY >= chartArea.top &&
-    eventY <= chartArea.bottom
+    eventX >= chartArea.left
+    && eventX <= chartArea.right
+    && eventY >= chartArea.top
+    && eventY <= chartArea.bottom
   ) {
     // Get the active elements at the event position
     const activeElements = chart.tooltip.getActiveElements();
@@ -27,12 +27,12 @@ export function handleContextMenu(event, chart, contextMenu) {
     // Check if there is at least one active element
     if (activeElements.length) {
       // Update the context menu content with a delete option
-      contextMenu.innerHTML = `<a href="#" id="deleteDataPoint">Delete Data Point</a>`;
+      contextMenu.innerHTML = `<a href="#" id='deleteDataPoint'>Delete Data Point</a>`;
 
       // Add an event listener for the delete option
       document
-        .getElementById("deleteDataPoint")
-        .addEventListener("click", (event) => {
+        .getElementById('deleteDataPoint')
+        .addEventListener('click', (event) => {
           // Prevent the link from navigating to a new page
           event.preventDefault();
           // Pass the datasets, labels and active elements arrays to your delete function
@@ -43,12 +43,12 @@ export function handleContextMenu(event, chart, contextMenu) {
       const position = Chart.helpers.getRelativePosition(event, chart);
 
       // Update the context menu content with an add option
-      contextMenu.innerHTML = `<a href="#" id="addDataPoint">Add Data Point</a>`;
+      contextMenu.innerHTML = `<a href="#" id='addDataPoint'>Add Data Point</a>`;
 
       // Add an event listener for the add option
       document
-        .getElementById("addDataPoint")
-        .addEventListener("click", (event) => {
+        .getElementById('addDataPoint')
+        .addEventListener('click', (event) => {
           // Prevent the link from navigating to a new page
           event.preventDefault();
           // Pass the datasets, labels and position objects to your add function
@@ -57,7 +57,7 @@ export function handleContextMenu(event, chart, contextMenu) {
     }
 
     // Show the context menu at the position of the event
-    contextMenu.style.display = "block";
+    contextMenu.style.display = 'block';
     contextMenu.style.top = `${event.clientY}px`;
     contextMenu.style.left = `${event.clientX}px`;
   }

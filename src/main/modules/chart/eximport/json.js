@@ -7,7 +7,7 @@ export function exportChartData(chart) {
   }));
 
   let jsonData = JSON.stringify(newData);
-  downloadFile(jsonData, "chartData.json", "application/json");
+  downloadFile(jsonData, 'chartData.json', 'application/json');
 }
 
 function downloadFile(data, filename, type) {
@@ -17,7 +17,7 @@ function downloadFile(data, filename, type) {
     window.navigator.msSaveOrOpenBlob(file, filename);
   else {
     // Others
-    let a = document.createElement("a"),
+    let a = document.createElement('a'),
       url = URL.createObjectURL(file);
     a.href = url;
     a.download = filename;
@@ -31,11 +31,11 @@ function downloadFile(data, filename, type) {
 }
 
 export function importChartData(chart, updateDataAndUI) {
-  const input = document.getElementById("inputFile");
+  const input = document.getElementById('inputFile');
 
   // Check if a file was selected
   if (!input.files || !input.files[0]) {
-    alert("Please select a file to import.");
+    alert('Please select a file to import.');
     return;
   }
 
@@ -55,7 +55,8 @@ export function importChartData(chart, updateDataAndUI) {
     // update chart
     chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
     chart.update();
-    //updateChartDataText();
+
+    // updateChartDataText();
     updateDataAndUI(chart);
   };
 

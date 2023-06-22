@@ -1,6 +1,6 @@
-import { updateDataAndUI } from "./functions/updateFunctions.js";
-import { saveChartData } from "./localStorage/localStorage.js";
-import { changeEventOutsideDataPoint } from "./zoom.js";
+import { updateDataAndUI } from './functions/updateFunctions.js';
+import { saveChartData } from './localStorage/localStorage.js';
+import { changeEventOutsideDataPoint } from './zoom.js';
 export const onDragStart = function (e, datasetIndex, index, value) {
   // Prevent first data point to be dragged
   if (index === 0) {

@@ -21,30 +21,29 @@ function updateChartDataText(chart) {
     duration: point.x - data[index].x,
     speed: point.y,
   }));
-  document.getElementById("chartData").value = JSON.stringify(output);
+  document.getElementById('chartData').value = JSON.stringify(output);
 }
 
-const chartDataTextarea = document.getElementById("chartData");
+const chartDataTextarea = document.getElementById('chartData');
 
-chartDataTextarea.addEventListener("input", updateTextareaSize);
+chartDataTextarea.addEventListener('input', updateTextareaSize);
 
 function updateTextareaSize() {
-  chartDataTextarea.style.height = "auto";
-  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + "px";
+  chartDataTextarea.style.height = 'auto';
+  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + 'px';
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
-  const text = origin.value.replace(/ /g, "");
+  const text = origin.value.replace(/ /g, '');
 
-  if (event.data == "{") {
+  if (event.data == '{') {
     insertTextSegment(origin);
   }
 
-  const pattern =
-    /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
+  const pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
   const result = pattern.test(text);
-  origin.classList.toggle("invalid", !result);
+  origin.classList.toggle('invalid', !result);
 
   if (!result) return;
 
@@ -68,9 +67,8 @@ function insertTextSegment(textarea) {
   var start = textarea.selectionStart;
   var end = textarea.selectionEnd;
   var sel = textarea.value.substring(start, end);
-  var finText =
-    textarea.value.substring(0, start) +
-    '"duration":,"speed":}' +
+  var finText = textarea.value.substring(0, start)
+  + '"duration":,"speed":}' +
     textarea.value.substring(end);
   textarea.value = finText;
   textarea.focus();
@@ -81,11 +79,11 @@ function insertTextSegment(textarea) {
 export function tabNavigation(event) {
   var origin = event.target;
   var text = origin.value;
-  if (event.key != "Tab") return;
+  if (event.key != 'Tab') return;
   event.preventDefault();
   var start = origin.selectionStart;
   var end = origin.selectionEnd;
-  var nextColon = text.indexOf(":", end);
+  var nextColon = text.indexOf(':', end);
   if (nextColon == -1) {
     nextColon = text.length - 1;
   } else {

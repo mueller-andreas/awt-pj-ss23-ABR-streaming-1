@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --ext .js src"
+    "lint": "eslint --ext .js src/main"
   },
   "author": "",
   "license": "ISC",
