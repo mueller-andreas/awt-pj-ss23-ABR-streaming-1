@@ -39,28 +39,46 @@ function updateTextareaSize() {
 }
 
 function checkText(text) {
+  const errors = [];
+  // test general pattern
   const pattern = /^\[\{\s*"duration"\s*:[1-9]\d*,\s*"speed"\s*:[1-9]\d*\}(,\{\s*"duration"\s*:[1-9]\d*,\s*"speed"\s*:[1-9]\d*\})*\]$/;
   const result = pattern.test(text);
   if (result) {
-    return [];
+    return errors;
   }
 
+  // check for correct start and end
+  if (!text.startsWith('[{')) {
+    errors.push(0);
+  }
+
+  if (!text.endsWith('}]')) {
+    errors.push(text.length - 2);
+  }
+
+  // use json parser error to get error position
   try {
-    const obj = JSON.parse(text);
+    JSON.parse(text);
   } catch (err) {
-    const options = err.message.match(/[1-9]\d*/g).map(parseInt);
-    return [options[0]];
+    const matches = err.message.matchAll(/at position ([1-9]\d*)/g);
+    Array.from(matches).forEach((match) => {
+      errors.push(match.index);
+    });
   }
 
-  return [];
+  return errors;
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
   const text = origin.innerText;
 
-  if (event.data === '{' && text[Cursor.getCurrentCursorPosition(origin) - 2] === ',' && (text[Cursor.getCurrentCursorPosition(origin)] === '{' || text[Cursor.getCurrentCursorPosition(origin)] === ']')) {
-    insertTextSegment(origin);
+  if (event.data === '{') {
+    if ((text[Cursor.getCurrentCursorPosition(origin) - 2] === ',' || text[Cursor.getCurrentCursorPosition(origin) - 2] === '[') && text[Cursor.getCurrentCursorPosition(origin)] === '{') {
+      insertTextSegment(origin, true);
+    } else if (text[Cursor.getCurrentCursorPosition(origin)] === ']') {
+      insertTextSegment(origin, false);
+    }
   }
 
   const errors = checkText(text);
@@ -105,10 +123,10 @@ export function formatJSONText(target, errors) {
   target.innerHTML = res;
 }
 
-function insertTextSegment(textarea) {
+function insertTextSegment(textarea, includeComma) {
   const caret = Cursor.getCurrentCursorPosition(textarea);
   const text = textarea.innerText;
-  const result = `${text.slice(0, caret)}"duration":,"speed":},${text.slice(caret)}`;
+  const result = `${text.slice(0, caret)}"duration":,"speed":}${includeComma ? ',': ''}${text.slice(caret)}`;
   textarea.innerText = result;
   formatJSONText(textarea, []);
   Cursor.setCurrentCursorPosition(caret + 11, textarea);
@@ -128,6 +146,7 @@ function getCurrentSegmentIndex(textarea) {
 
 export function highlightCurrentSegment(event) {
   const currentSegment = getCurrentSegmentIndex(event.target);
+  console.info(`Current segement: ${currentSegment}`);
 }
 
 // move to next data point on tab in the textarea

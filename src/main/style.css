@@ -84,5 +84,5 @@ form {
 
 #chartData span.error {
   /* color: #ff0000; */
-  text-decoration: #ff0000 dotted underline;
+  text-decoration: #ff0000 solid underline;
 }
