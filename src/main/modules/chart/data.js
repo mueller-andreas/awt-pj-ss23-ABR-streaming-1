@@ -12,10 +12,10 @@ export const data = {
       backgroundColor: 'rgba(67, 155, 255, 0.5)',
       stepped: 'after',
       // Disable the first point
-      pointHitRadius: function (context) {
+      pointHitRadius(context) {
         return context.dataIndex === 0 ? 0 : 1;
       },
-      pointRadius: function (context) {
+      pointRadius(context) {
         return context.dataIndex === 0 ? 0 : 3;
       },
     },

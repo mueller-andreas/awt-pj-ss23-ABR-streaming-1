@@ -36,7 +36,7 @@ export function addDataPoint(chart, position) {
 // Define function to delete data point
 export function deleteDataPoint(chart, activeElements) {
   // Get the index of the data point that was right-clicked
-  const index = activeElements[0].index;
+  const { index } = activeElements[0];
 
   // Delete point only if it is not the last data point
   if (index !== chart.data.datasets[0].data.length - 1) {

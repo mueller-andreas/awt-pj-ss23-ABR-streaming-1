@@ -10,13 +10,13 @@ export function updateDataAndUI(chart) {
 
 // Define function to keep the first element level with the second
 function updateFirstElement(chart) {
-  const data = chart.data.datasets[0].data;
+  const { data } = chart.data.datasets[0];
   data[0].y = data[1].y;
 }
 
 // Define function to update the text area
 function updateChartDataText(chart) {
-  const data = chart.data.datasets[0].data;
+  const { data } = chart.data.datasets[0];
   const output = data.slice(1).map((point, index) => ({
     duration: point.x - data[index].x,
     speed: point.y,
@@ -30,7 +30,7 @@ chartDataTextarea.addEventListener('input', updateTextareaSize);
 
 function updateTextareaSize() {
   chartDataTextarea.style.height = 'auto';
-  chartDataTextarea.style.height = chartDataTextarea.scrollHeight + 5 + 'px';
+  chartDataTextarea.style.height = `${chartDataTextarea.scrollHeight + 5}px`;
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
@@ -50,7 +50,7 @@ export function updateChartFromText(event, chart, saveChartData) {
   const newData = JSON.parse(text);
 
   let sum = 0;
-  let res = newData.map((parameter) => {
+  const res = newData.map((parameter) => {
     sum += parameter.duration;
     return { x: sum, y: parameter.speed };
   });
@@ -64,12 +64,12 @@ export function updateChartFromText(event, chart, saveChartData) {
 }
 
 function insertTextSegment(textarea) {
-  var start = textarea.selectionStart;
-  var end = textarea.selectionEnd;
-  var sel = textarea.value.substring(start, end);
-  var finText = textarea.value.substring(0, start)
-  + '"duration":,"speed":}' +
-    textarea.value.substring(end);
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const sel = textarea.value.substring(start, end);
+  const finText = `${textarea.value.substring(0, start)
+  }"duration":,"speed":}${
+    textarea.value.substring(end)}`;
   textarea.value = finText;
   textarea.focus();
   textarea.selectionEnd = end + 11;
@@ -77,13 +77,13 @@ function insertTextSegment(textarea) {
 
 // move to next data point on tab in the textarea
 export function tabNavigation(event) {
-  var origin = event.target;
-  var text = origin.value;
+  const origin = event.target;
+  const text = origin.value;
   if (event.key != 'Tab') return;
   event.preventDefault();
-  var start = origin.selectionStart;
-  var end = origin.selectionEnd;
-  var nextColon = text.indexOf(':', end);
+  const start = origin.selectionStart;
+  const end = origin.selectionEnd;
+  let nextColon = text.indexOf(':', end);
   if (nextColon == -1) {
     nextColon = text.length - 1;
   } else {

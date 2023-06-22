@@ -10,7 +10,7 @@ const scales = {
     min: 0,
     max: 20000,
     ticks: {
-      callback: (val, index, ticks) => index === 0 || index === ticks.length - 1 ? null : val,
+      callback: (val, index, ticks) => (index === 0 || index === ticks.length - 1 ? null : val),
     },
   },
   y: {
@@ -21,7 +21,7 @@ const scales = {
     beginAtZero: true,
     suggestedMax: 15000,
     ticks: {
-      callback: (val, index, ticks) => index === 0 || index === ticks.length - 1 ? null : val,
+      callback: (val, index, ticks) => (index === 0 || index === ticks.length - 1 ? null : val),
     },
   },
 };
@@ -33,20 +33,20 @@ export const options = {
     },
     tooltip: {
       callbacks: {
-        title: function () {
+        title() {
           // return custom title
           return '';
         },
-        label: function (context) {
+        label(context) {
           // return custom label
-          return 'ms: ' + context.parsed.x + ', kbit/s: ' + context.parsed.y;
+          return `ms: ${context.parsed.x}, kbit/s: ${context.parsed.y}`;
         },
       },
     },
     dragData: {
       dragX: true,
     },
-    zoom: zoom,
+    zoom,
   },
-  scales: scales,
+  scales,
 };

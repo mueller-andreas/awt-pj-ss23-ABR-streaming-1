@@ -50,7 +50,8 @@ const contextMenu = document.getElementById('contextMenu');
 // Add an event listener for the contextmenu event
 chart.canvas.addEventListener('contextmenu', (event) => handleContextMenu(event, chart, contextMenu));
 
-// Add an event listener for the dataChanged event using the imported function and passing the chart object as a parameter
+// Add an event listener for the dataChanged event
+// using the imported function and passing the chart object as a parameter
 chart.canvas.addEventListener('dataChanged', () => {
   updateDataAndUI(chart);
   saveChartData(chart);

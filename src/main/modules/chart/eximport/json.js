@@ -6,24 +6,23 @@ export function exportChartData(chart) {
     speed: point.y,
   }));
 
-  let jsonData = JSON.stringify(newData);
+  const jsonData = JSON.stringify(newData);
   downloadFile(jsonData, 'chartData.json', 'application/json');
 }
 
 function downloadFile(data, filename, type) {
-  let file = new Blob([data], { type: type });
+  const file = new Blob([data], { type });
   if (window.navigator.msSaveOrOpenBlob)
-    // IE10+
-    window.navigator.msSaveOrOpenBlob(file, filename);
-  else {
+  // IE10+
+  { window.navigator.msSaveOrOpenBlob(file, filename); } else {
     // Others
-    let a = document.createElement('a'),
-      url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(file);
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);
     a.click();
-    setTimeout(function () {
+    setTimeout(() => {
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     }, 0);

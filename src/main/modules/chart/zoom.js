@@ -10,7 +10,7 @@ export const zoom = {
   },
   pan: {
     enabled: true,
-    mode: function () {
+    mode() {
       if (eventOutsideDataPoint) {
         return 'xy';
       }

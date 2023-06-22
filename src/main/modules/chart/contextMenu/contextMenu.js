@@ -12,7 +12,7 @@ export function handleContextMenu(event, chart, contextMenu) {
   const eventY = event.clientY - canvasRect.top;
 
   // Get the chart area
-  const chartArea = chart.chartArea;
+  const { chartArea } = chart;
 
   // Check if the right-click occurred within the chart area
   if (
@@ -27,7 +27,7 @@ export function handleContextMenu(event, chart, contextMenu) {
     // Check if there is at least one active element
     if (activeElements.length) {
       // Update the context menu content with a delete option
-      contextMenu.innerHTML = `<a href="#" id='deleteDataPoint'>Delete Data Point</a>`;
+      contextMenu.innerHTML = '<a href="#" id=\'deleteDataPoint\'>Delete Data Point</a>';
 
       // Add an event listener for the delete option
       document
@@ -43,7 +43,7 @@ export function handleContextMenu(event, chart, contextMenu) {
       const position = Chart.helpers.getRelativePosition(event, chart);
 
       // Update the context menu content with an add option
-      contextMenu.innerHTML = `<a href="#" id='addDataPoint'>Add Data Point</a>`;
+      contextMenu.innerHTML = '<a href="#" id=\'addDataPoint\'>Add Data Point</a>';
 
       // Add an event listener for the add option
       document
