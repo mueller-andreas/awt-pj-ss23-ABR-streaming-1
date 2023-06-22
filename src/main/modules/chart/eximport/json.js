@@ -1,20 +1,9 @@
-export function exportChartData(chart) {
-  const chartData = chart.data.datasets[0].data;
-  // Map the x and y properties to speed and duration
-  const newData = chartData.slice(1).map((point, index) => ({
-    duration: point.x - chartData[index].x,
-    speed: point.y,
-  }));
-
-  const jsonData = JSON.stringify(newData);
-  downloadFile(jsonData, 'chartData.json', 'application/json');
-}
-
 function downloadFile(data, filename, type) {
   const file = new Blob([data], { type });
-  if (window.navigator.msSaveOrOpenBlob)
-  // IE10+
-  { window.navigator.msSaveOrOpenBlob(file, filename); } else {
+  if (window.navigator.msSaveOrOpenBlob) {
+    // IE10+
+    window.navigator.msSaveOrOpenBlob(file, filename);
+  } else {
     // Others
     const a = document.createElement('a');
     const url = URL.createObjectURL(file);
@@ -27,6 +16,18 @@ function downloadFile(data, filename, type) {
       window.URL.revokeObjectURL(url);
     }, 0);
   }
+}
+
+export function exportChartData(chart) {
+  const chartData = chart.data.datasets[0].data;
+  // Map the x and y properties to speed and duration
+  const newData = chartData.slice(1).map((point, index) => ({
+    duration: point.x - chartData[index].x,
+    speed: point.y,
+  }));
+
+  const jsonData = JSON.stringify(newData);
+  downloadFile(jsonData, 'chartData.json', 'application/json');
 }
 
 export function importChartData(chart, updateDataAndUI) {

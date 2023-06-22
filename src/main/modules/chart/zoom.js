@@ -1,5 +1,7 @@
 export let eventOutsideDataPoint = true;
-export const changeEventOutsideDataPoint = (newIsEventOutside) => (eventOutsideDataPoint = newIsEventOutside);
+export const changeEventOutsideDataPoint = (newIsEventOutside) => {
+  eventOutsideDataPoint = newIsEventOutside;
+};
 
 export const zoom = {
   zoom: {

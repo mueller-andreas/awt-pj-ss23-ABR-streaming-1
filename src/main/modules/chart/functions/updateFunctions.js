@@ -1,13 +1,3 @@
-// Define function to update necessary functions
-export function updateDataAndUI(chart) {
-  // Update the first element
-  updateFirstElement(chart);
-  // Update the text area with the chart data
-  updateChartDataText(chart);
-  // Adjust the text area size according to the content
-  updateTextareaSize();
-}
-
 // Define function to keep the first element level with the second
 function updateFirstElement(chart) {
   const { data } = chart.data.datasets[0];
@@ -26,18 +16,40 @@ function updateChartDataText(chart) {
 
 const chartDataTextarea = document.getElementById('chartData');
 
-chartDataTextarea.addEventListener('input', updateTextareaSize);
-
 function updateTextareaSize() {
   chartDataTextarea.style.height = 'auto';
   chartDataTextarea.style.height = `${chartDataTextarea.scrollHeight + 5}px`;
+}
+
+chartDataTextarea.addEventListener('input', updateTextareaSize);
+
+// Define function to update necessary functions
+export function updateDataAndUI(chart) {
+  // Update the first element
+  updateFirstElement(chart);
+  // Update the text area with the chart data
+  updateChartDataText(chart);
+  // Adjust the text area size according to the content
+  updateTextareaSize();
+}
+
+function insertTextSegment(textarea) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const sel = textarea.value.substring(start, end);
+  const finText = `${textarea.value.substring(0, start)
+  }"duration":,"speed":}${
+    textarea.value.substring(end)}`;
+  textarea.value = finText;
+  textarea.focus();
+  textarea.selectionEnd = end + 11;
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
   const text = origin.value.replace(/ /g, '');
 
-  if (event.data == '{') {
+  if (event.data === '{') {
     insertTextSegment(origin);
   }
 
@@ -63,28 +75,16 @@ export function updateChartFromText(event, chart, saveChartData) {
   saveChartData(chart);
 }
 
-function insertTextSegment(textarea) {
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const sel = textarea.value.substring(start, end);
-  const finText = `${textarea.value.substring(0, start)
-  }"duration":,"speed":}${
-    textarea.value.substring(end)}`;
-  textarea.value = finText;
-  textarea.focus();
-  textarea.selectionEnd = end + 11;
-}
-
 // move to next data point on tab in the textarea
 export function tabNavigation(event) {
   const origin = event.target;
   const text = origin.value;
-  if (event.key != 'Tab') return;
+  if (event.key !== 'Tab') return;
   event.preventDefault();
   const start = origin.selectionStart;
   const end = origin.selectionEnd;
   let nextColon = text.indexOf(':', end);
-  if (nextColon == -1) {
+  if (nextColon === -1) {
     nextColon = text.length - 1;
   } else {
     nextColon += 1;
