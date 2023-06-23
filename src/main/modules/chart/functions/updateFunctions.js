@@ -60,13 +60,14 @@ function checkText(text) {
   try {
     JSON.parse(text);
   } catch (err) {
+    console.log(err.message)
     const matches = err.message.matchAll(/at position ([1-9]\d*)/g);
     Array.from(matches).forEach((match) => {
       errors.push(match.index);
     });
   }
 
-  return errors;
+    return errors.length > 0 ? errors : [-1];
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
@@ -114,7 +115,9 @@ export function formatJSONText(target, errors) {
     errors = [];
   }
   if (errors.length > 0) {
-    text = `${text.slice(0, errors[0])}<span class="error">${text[errors[0]]}</span>${text.slice(errors[0] + 1)}`;
+    if (errors[0] !== -1) {
+      text = `${text.slice(0, errors[0])}<span class="error">${text[errors[0]]}</span>${text.slice(errors[0] + 1)}`;
+    }
   }
   const res = text
     .replaceAll('duration', '<span class="key">duration</span>')
@@ -146,7 +149,6 @@ function getCurrentSegmentIndex(textarea) {
 
 export function highlightCurrentSegment(event) {
   const currentSegment = getCurrentSegmentIndex(event.target);
-  console.info(`Current segement: ${currentSegment}`);
 }
 
 // move to next data point on tab in the textarea
