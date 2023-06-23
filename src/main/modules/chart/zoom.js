@@ -9,8 +9,8 @@ export const zoom = {
       enabled: true,
     },
 
-    mode: "",
-    scaleMode: "xy",
+    mode: '',
+    scaleMode: 'xy',
   },
   pan: {
     enabled: true,
@@ -22,8 +22,8 @@ export const zoom = {
       }
       return false;
     },
-    mode: "",
-    scaleMode: "xy",
+    mode: '',
+    scaleMode: 'xy',
     threshold: 10,
   },
   limits: {
@@ -33,11 +33,11 @@ export const zoom = {
 };
 
 export function zoomToGraph(chart) {
-  const data = chart.data.datasets[0].data;
+  const { data } = chart.data.datasets[0];
   const xMax = Math.max(...data.map((d) => d.x));
   const yMax = Math.max(...data.map((d) => d.y));
 
-  chart.zoomScale("x", { min: 0, max: xMax });
-  chart.zoomScale("y", { min: 0, max: yMax });
+  chart.zoomScale('x', { min: 0, max: xMax });
+  chart.zoomScale('y', { min: 0, max: yMax });
   chart.update();
 }

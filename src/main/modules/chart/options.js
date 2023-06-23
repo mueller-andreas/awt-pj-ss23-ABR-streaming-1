@@ -1,11 +1,11 @@
-import { zoom } from "./zoom.js";
+import { zoom } from './zoom.js';
 
 const scales = {
   x: {
-    type: "linear",
+    type: 'linear',
     title: {
       display: true,
-      text: "Duration (ms)",
+      text: 'Duration (ms)',
     },
     min: 0,
     max: 40000,
@@ -16,7 +16,7 @@ const scales = {
       // offset: true,
       // precision: 0,
       includeBounds: false,
-      //autoSkip: false,
+      // autoSkip: false,
       // maxTicksLimit: 9,
       // stepSize: 2000,
       // sampleSize: 5,
@@ -41,12 +41,12 @@ const scales = {
   y: {
     title: {
       display: true,
-      text: "Speed (kbit/s)",
+      text: 'Speed (kbit/s)',
     },
     beginAtZero: true,
     min: 0,
     max: 16000,
-    //suggestedMax: 15000,
+    // suggestedMax: 15000,
     ticks: {
       includeBounds: false,
       // callback: (val, index, ticks) =>
@@ -58,13 +58,13 @@ const scales = {
 export const options = {
   plugins: {
     customCanvasBackgroundColor: {
-      color: "white",
+      color: 'white',
     },
     tooltip: {
       callbacks: {
         title() {
           // return custom title
-          return "";
+          return '';
         },
         label(context) {
           // return custom label

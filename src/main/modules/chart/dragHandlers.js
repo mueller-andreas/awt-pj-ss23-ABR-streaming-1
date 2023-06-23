@@ -1,7 +1,7 @@
+import { updateDataAndUI } from './functions/updateFunctions.js';
+import { saveChartData } from './localStorage/localStorage.js';
+import { changeEventOutsideDataPoint, zoom } from './zoom.js';
 
-import { updateDataAndUI } from "./functions/updateFunctions.js";
-import { saveChartData } from "./localStorage/localStorage.js";
-import { changeEventOutsideDataPoint, zoom } from "./zoom.js";
 let oldValue = 0;
 let valueSegMax = 0;
 
@@ -12,7 +12,7 @@ export const onDragStart = function (e, datasetIndex, index, value) {
   }
   const chart = this;
   // Initialize code for locked segments
-  const data = chart.data.datasets[datasetIndex].data;
+  const { data } = chart.data.datasets[datasetIndex];
   oldValue = data[index].x;
   const oldLastValue = data[data.length - 1].x;
   valueSegMax = zoom.limits.x.max - oldLastValue + oldValue;
@@ -35,7 +35,7 @@ export const onDrag = function (e, datasetIndex, index, value) {
   // update data point with rounded y-value
   data[index].y = roundedY;
 
-  const checkbox = document.getElementById("lockSegButton");
+  const checkbox = document.getElementById('lockSegButton');
   const prev = data[index - 1].x;
   // Check if the current data point is not the first or last
   if (index > 0 && index < data.length - 1 && !checkbox.checked) {

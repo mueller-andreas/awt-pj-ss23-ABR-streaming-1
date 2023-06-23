@@ -38,7 +38,6 @@ export function deleteDataPoint(chart, activeElements) {
   // Get the index of the data point that was right-clicked
   const { index } = activeElements[0];
 
-
   // Dont delete point  if it is  the last data point that is shown
   if (index === chart.data.datasets[0].data.length - 1 && index === 1) {
     return;
@@ -49,7 +48,7 @@ export function deleteDataPoint(chart, activeElements) {
   chart.data.labels.splice(index, 1);
 
   // Hide the context menu
-  contextMenu.style.display = "none";
+  contextMenu.style.display = 'none';
 
   // Dispatch the custom event to notify that the data has changed
   chart.canvas.dispatchEvent(dataChanged);

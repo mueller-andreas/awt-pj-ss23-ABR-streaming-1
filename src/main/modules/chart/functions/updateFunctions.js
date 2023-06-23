@@ -88,7 +88,7 @@ function checkText(text) {
 function insertTextSegment(textarea, includeComma) {
   const caret = Cursor.getCurrentCursorPosition(textarea);
   const text = textarea.innerText;
-  const result = `${text.slice(0, caret)}"duration":,"speed":}${includeComma ? ',': ''}${text.slice(caret)}`;
+  const result = `${text.slice(0, caret)}"duration":,"speed":}${includeComma ? ',' : ''}${text.slice(caret)}`;
   textarea.innerText = result;
   formatJSONText(textarea, []);
   Cursor.setCurrentCursorPosition(caret + 11, textarea);

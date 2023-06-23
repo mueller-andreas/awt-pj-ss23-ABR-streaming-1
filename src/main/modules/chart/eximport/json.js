@@ -5,7 +5,7 @@ function downloadFile(data, filename, type) {
     window.navigator.msSaveOrOpenBlob(file, filename);
   } else {
     // Others
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     const url = URL.createObjectURL(file);
     a.href = url;
     a.download = filename;
@@ -27,15 +27,15 @@ export function exportChartData(chart) {
   }));
 
   const jsonData = JSON.stringify(newData);
-  downloadFile(jsonData, "chartData.json", "application/json");
+  downloadFile(jsonData, 'chartData.json', 'application/json');
 }
 
 export function importChartData(chart, updateDataAndUI, saveChartData) {
-  const input = document.getElementById("inputFile");
+  const input = document.getElementById('inputFile');
 
   // Check if a file was selected
   if (!input.files || !input.files[0]) {
-    alert("Please select a file to import.");
+    alert('Please select a file to import.');
     return;
   }
 
