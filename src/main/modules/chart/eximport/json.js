@@ -58,6 +58,7 @@ export function importChartData(chart, updateDataAndUI) {
 
     // updateChartDataText();
     updateDataAndUI(chart);
+    saveChartData(chart);
   };
 
   // Read the file as text

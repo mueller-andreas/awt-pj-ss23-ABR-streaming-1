@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chart.js Example</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
@@ -18,7 +18,14 @@
   <body>
     <canvas id="myChart"></canvas>
 
+
+
+
+
     <div id="chartData" contenteditable></div>
+
+    <input type="checkbox" id="lockSegButton">Lock Segments</button>
+    
     <button id="copy-button" class="button">Copy To Clipboard</button>
 
     <div id="contextMenu" class="context-menu"></div>
@@ -26,6 +33,8 @@
     <button id="graphicButton" class="button">Export Graphic</button>
 
     <button id="jsonButtonExport" class="button">Export JSON</button>
+
+    <button id="zoomGraphButton" class="button">Zoom to Graph</button>
     <br />
 
     <div>

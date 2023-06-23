@@ -8,22 +8,36 @@ export const zoom = {
     wheel: {
       enabled: true,
     },
-    mode: 'xy',
+
+    mode: "",
+    scaleMode: "xy",
   },
   pan: {
     enabled: true,
-    mode() {
+    // Interrupt pan if the click happened on a data point
+    // Fixes the interaction between drag an zoom/pan plugins
+    onPanStart: () => {
       if (eventOutsideDataPoint) {
-        return 'xy';
+        return true;
       }
-      return '';
+      return false;
+
     },
-    // enabled: true,
-    // mode: "",
-    // scaleMode: "xy",
+    mode: "",
+    scaleMode: "xy",
+    threshold: 10,
   },
   limits: {
-    y: { min: 0, max: 40000, minRange: 1000 },
-    x: { min: 0, max: 40000, minRange: 1000 },
+    x: { min: 0, max: 1000000, minRange: 4000 },
+    y: { min: 0, max: 1000000, minRange: 5000 },
   },
 };
+
+export function zoomToGraph(chart) {
+  const data = chart.data.datasets[0].data;
+  const xMax = Math.max(...data.map((d) => d.x));
+  const yMax = Math.max(...data.map((d) => d.y));
+
+  chart.zoomScale("x", { min: 0, max: xMax });
+  chart.zoomScale("y", { min: 0, max: yMax });
+}

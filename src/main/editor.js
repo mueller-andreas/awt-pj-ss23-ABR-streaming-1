@@ -22,7 +22,10 @@ import { exportGraphic } from './modules/chart/eximport/graphic.js';
 import {
   exportChartData,
   importChartData,
-} from './modules/chart/eximport/json.js';
+
+} from "./modules/chart/eximport/json.js";
+import { zoomToGraph } from "./modules/chart/zoom.js";
+
 
 // chart.js
 // Get the chart context
@@ -91,8 +94,15 @@ document
   .getElementById('jsonButtonExport')
   .addEventListener('click', () => exportChartData(chart));
 
+// Add an event listener to the zoomGraphButton button
+document
+  .getElementById("zoomGraphButton")
+  .addEventListener("click", () => zoomToGraph(chart));
+
 // Add an event listener to the json import button
 // Use updateDataAndUI as callback function for updating the chart and textfield after import
-document.getElementById('jsonButtonImport').addEventListener('click', () => {
-  importChartData(chart, updateDataAndUI);
+
+document.getElementById("jsonButtonImport").addEventListener("click", () => {
+  importChartData(chart, updateDataAndUI, saveChartData);
+
 });
