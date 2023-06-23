@@ -1,3 +1,23 @@
+function downloadFile(data, filename, type) {
+  const file = new Blob([data], { type });
+  if (window.navigator.msSaveOrOpenBlob) {
+    // IE10+
+    window.navigator.msSaveOrOpenBlob(file, filename);
+  } else {
+    // Others
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(file);
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 0);
+  }
+}
+
 export function exportChartData(chart) {
   const chartData = chart.data.datasets[0].data;
   // Map the x and y properties to speed and duration
@@ -6,36 +26,16 @@ export function exportChartData(chart) {
     speed: point.y,
   }));
 
-  let jsonData = JSON.stringify(newData);
-  downloadFile(jsonData, "chartData.json", "application/json");
+  const jsonData = JSON.stringify(newData);
+  downloadFile(jsonData, 'chartData.json', 'application/json');
 }
 
-function downloadFile(data, filename, type) {
-  let file = new Blob([data], { type: type });
-  if (window.navigator.msSaveOrOpenBlob)
-    // IE10+
-    window.navigator.msSaveOrOpenBlob(file, filename);
-  else {
-    // Others
-    let a = document.createElement("a"),
-      url = URL.createObjectURL(file);
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function () {
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    }, 0);
-  }
-}
-
-export function importChartData(chart, updateDataAndUI, saveChartData) {
-  const input = document.getElementById("inputFile");
+export function importChartData(chart, updateDataAndUI) {
+  const input = document.getElementById('inputFile');
 
   // Check if a file was selected
   if (!input.files || !input.files[0]) {
-    alert("Please select a file to import.");
+    alert('Please select a file to import.');
     return;
   }
 
@@ -55,7 +55,8 @@ export function importChartData(chart, updateDataAndUI, saveChartData) {
     // update chart
     chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
     chart.update();
-    //updateChartDataText();
+
+    // updateChartDataText();
     updateDataAndUI(chart);
     saveChartData(chart);
   };

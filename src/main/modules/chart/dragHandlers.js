@@ -1,8 +1,10 @@
+
 import { updateDataAndUI } from "./functions/updateFunctions.js";
 import { saveChartData } from "./localStorage/localStorage.js";
 import { changeEventOutsideDataPoint, zoom } from "./zoom.js";
 let oldValue = 0;
 let valueSegMax = 0;
+
 export const onDragStart = function (e, datasetIndex, index, value) {
   // Prevent first data point to be dragged
   if (index === 0) {
@@ -20,7 +22,7 @@ export const onDragStart = function (e, datasetIndex, index, value) {
 
 export const onDrag = function (e, datasetIndex, index, value) {
   const chart = this;
-  const data = chart.data.datasets[datasetIndex].data;
+  const { data } = chart.data.datasets[datasetIndex];
 
   // Round x-value
   const roundedX = Math.round(value.x / 100) * 100;
@@ -68,7 +70,7 @@ export const onDrag = function (e, datasetIndex, index, value) {
 export const onDragEnd = function (e, datasetIndex, index, value) {
   const chart = this;
   // Get the data from the dataset
-  const data = chart.data.datasets[datasetIndex].data;
+  const { data } = chart.data.datasets[datasetIndex];
   // Check if the current data point is not the first or last
   if (index > 0 && index < data.length - 1) {
     // Get the previous and next data points

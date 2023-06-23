@@ -37,18 +37,22 @@ form {
   width: 100%;
 }
 
-textarea {
+#chartData {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 19px;
   width: 100%;
+  height: auto;
   padding: 12px 20px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
+  background-color: #ffffff;
+  caret-color: black;
   resize: none;
 }
 
-textarea.invalid {
+#chartData.invalid {
   outline: auto 1px red;
 }
 
@@ -64,4 +68,21 @@ textarea.invalid {
 
 .button:hover {
   background-color: #ddd;
+}
+
+#chartData * {
+  pointer-events: none;
+}
+
+#chartData span.key {
+  color: #0451a5;
+}
+
+#chartData span.value {
+  color: #09885a;
+}
+
+#chartData span.error {
+  /* color: #ff0000; */
+  text-decoration: #ff0000 solid underline;
 }

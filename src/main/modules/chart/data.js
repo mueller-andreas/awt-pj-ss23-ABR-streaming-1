@@ -1,13 +1,14 @@
 export const data = {
   datasets: [
     {
-      label: "Bandwidth Trajectory",
+      label: 'Bandwidth Trajectory',
       data: [
         { x: 0, y: 8000 },
         { x: 5000, y: 8000 },
         { x: 10000, y: 1000 },
         { x: 20000, y: 12000 },
       ],
+
       borderColor: (ctx) => {
         //console.log(ctx);
         return borderStyle(ctx, "rgb(192,75,75)");
@@ -23,11 +24,12 @@ export const data = {
         borderColor: (ctx) => segmentStyle(ctx, "rgb(192,75,75)"),
         //backgroundColor: (ctx) => segmentStyle(ctx, "rgb(192,75,75, 0.5)"),
       },
+
       // Disable the first point
-      pointHitRadius: function (context) {
+      pointHitRadius(context) {
         return context.dataIndex === 0 ? 0 : 1;
       },
-      pointRadius: function (context) {
+      pointRadius(context) {
         return context.dataIndex === 0 ? 0 : 3;
       },
     },

@@ -1,5 +1,5 @@
 // Create a custom event object to notify when the data changes
-const dataChanged = new CustomEvent("dataChanged");
+const dataChanged = new CustomEvent('dataChanged');
 // Define function to add data point
 export function addDataPoint(chart, position) {
   // Get the value of the new data point based on the position of the right-click
@@ -12,7 +12,7 @@ export function addDataPoint(chart, position) {
 
   // Find the index where to insert the new data point
   let index = chart.data.datasets[0].data.findIndex(
-    (dataPoint) => dataPoint.x > label
+    (dataPoint) => dataPoint.x > label,
   );
 
   // @Todo probably not needed anymore
@@ -25,7 +25,7 @@ export function addDataPoint(chart, position) {
   chart.data.datasets[0].data.splice(index, 0, { x: label, y: value });
 
   // Hide the context menu
-  contextMenu.style.display = "none";
+  contextMenu.style.display = 'none';
 
   // Dispatch the custom event to notify that the data has changed
 
@@ -36,7 +36,8 @@ export function addDataPoint(chart, position) {
 // Define function to delete data point
 export function deleteDataPoint(chart, activeElements) {
   // Get the index of the data point that was right-clicked
-  const index = activeElements[0].index;
+  const { index } = activeElements[0];
+
 
   // Dont delete point  if it is  the last data point that is shown
   if (index === chart.data.datasets[0].data.length - 1 && index === 1) {

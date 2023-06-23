@@ -1,17 +1,18 @@
-import { zoom } from "./zoom.js";
+import { zoom } from './zoom.js';
 
 const scales = {
   x: {
-    type: "linear",
+    type: 'linear',
     title: {
       display: true,
-      text: "Duration (ms)",
+      text: 'Duration (ms)',
     },
     min: 0,
     max: 40000,
     // suggestedMin: 0,
     //suggestedMax: 40000,
     ticks: {
+
       // count: 7,
       // offset: true,
       // precision: 0,
@@ -36,21 +37,24 @@ const scales = {
       //   }
       //   return Math.round(val / 100) * 100;
       // },
+
     },
   },
   y: {
     title: {
       display: true,
-      text: "Speed (kbit/s)",
+      text: 'Speed (kbit/s)',
     },
     beginAtZero: true,
     min: 0,
     max: 16000,
     //suggestedMax: 15000,
     ticks: {
+
       includeBounds: false,
       // callback: (val, index, ticks) =>
       //   index === 0 || index === ticks.length - 1 ? null : val,
+
     },
   },
 };
@@ -58,24 +62,24 @@ const scales = {
 export const options = {
   plugins: {
     customCanvasBackgroundColor: {
-      color: "white",
+      color: 'white',
     },
     tooltip: {
       callbacks: {
-        title: function () {
+        title() {
           // return custom title
-          return "";
+          return '';
         },
-        label: function (context) {
+        label(context) {
           // return custom label
-          return "ms: " + context.parsed.x + ", kbit/s: " + context.parsed.y;
+          return `ms: ${context.parsed.x}, kbit/s: ${context.parsed.y}`;
         },
       },
     },
     dragData: {
       dragX: true,
     },
-    zoom: zoom,
+    zoom,
   },
-  scales: scales,
+  scales,
 };
