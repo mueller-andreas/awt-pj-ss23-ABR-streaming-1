@@ -1,20 +1,27 @@
 /* eslint-disable no-param-reassign */
 import Cursor from './Cursor.js';
 
-// Define function to update necessary functions
-export function updateDataAndUI(chart) {
-  // Update the first element
-  updateFirstElement(chart);
-  // Update the text area with the chart data
-  updateChartDataText(chart);
-  // Adjust the text area size according to the content
-  updateTextareaSize();
-}
-
 // Define function to keep the first element level with the second
 function updateFirstElement(chart) {
   const { data } = chart.data.datasets[0];
   data[0].y = data[1].y;
+}
+
+export function formatJSONText(target, errors) {
+  let text = target.innerText;
+  if (errors === undefined) {
+    errors = [];
+  }
+  if (errors.length > 0) {
+    if (errors[0] !== -1) {
+      text = `${text.slice(0, errors[0])}<span class="error">${text[errors[0]]}</span>${text.slice(errors[0] + 1)}`;
+    }
+  }
+  const res = text
+    .replaceAll('duration', '<span class="key">duration</span>')
+    .replaceAll('speed', '<span class="key">speed</span>')
+    .replace(/\d+/g, '<span class="value">$&</span>');
+  target.innerHTML = res;
 }
 
 // Define function to update the text area
@@ -31,11 +38,20 @@ function updateChartDataText(chart) {
 
 const chartDataTextarea = document.getElementById('chartData');
 
-chartDataTextarea.addEventListener('input', updateTextareaSize);
-
 function updateTextareaSize() {
   chartDataTextarea.style.height = 'auto';
   chartDataTextarea.style.height = `${chartDataTextarea.scrollHeight + 5}px`;
+}
+
+chartDataTextarea.addEventListener('input', updateTextareaSize);
+// Define function to update necessary functions
+export function updateDataAndUI(chart) {
+  // Update the first element
+  updateFirstElement(chart);
+  // Update the text area with the chart data
+  updateChartDataText(chart);
+  // Adjust the text area size according to the content
+  updateTextareaSize();
 }
 
 function checkText(text) {
@@ -60,14 +76,22 @@ function checkText(text) {
   try {
     JSON.parse(text);
   } catch (err) {
-    console.log(err.message)
     const matches = err.message.matchAll(/at position ([1-9]\d*)/g);
     Array.from(matches).forEach((match) => {
       errors.push(match.index);
     });
   }
 
-    return errors.length > 0 ? errors : [-1];
+  return errors.length > 0 ? errors : [-1];
+}
+
+function insertTextSegment(textarea, includeComma) {
+  const caret = Cursor.getCurrentCursorPosition(textarea);
+  const text = textarea.innerText;
+  const result = `${text.slice(0, caret)}"duration":,"speed":}${includeComma ? ',': ''}${text.slice(caret)}`;
+  textarea.innerText = result;
+  formatJSONText(textarea, []);
+  Cursor.setCurrentCursorPosition(caret + 11, textarea);
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
@@ -107,32 +131,6 @@ export function updateChartFromText(event, chart, saveChartData) {
   chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
   chart.update();
   saveChartData(chart);
-}
-
-export function formatJSONText(target, errors) {
-  let text = target.innerText;
-  if (errors === undefined) {
-    errors = [];
-  }
-  if (errors.length > 0) {
-    if (errors[0] !== -1) {
-      text = `${text.slice(0, errors[0])}<span class="error">${text[errors[0]]}</span>${text.slice(errors[0] + 1)}`;
-    }
-  }
-  const res = text
-    .replaceAll('duration', '<span class="key">duration</span>')
-    .replaceAll('speed', '<span class="key">speed</span>')
-    .replace(/\d+/g, '<span class="value">$&</span>');
-  target.innerHTML = res;
-}
-
-function insertTextSegment(textarea, includeComma) {
-  const caret = Cursor.getCurrentCursorPosition(textarea);
-  const text = textarea.innerText;
-  const result = `${text.slice(0, caret)}"duration":,"speed":}${includeComma ? ',': ''}${text.slice(caret)}`;
-  textarea.innerText = result;
-  formatJSONText(textarea, []);
-  Cursor.setCurrentCursorPosition(caret + 11, textarea);
 }
 
 function getCurrentSegmentIndex(textarea) {
