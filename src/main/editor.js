@@ -10,6 +10,8 @@ import {
   updateDataAndUI,
   updateChartFromText,
   tabNavigation,
+  formatJSONText,
+  highlightCurrentSegment,
 } from './modules/chart/functions/updateFunctions.js';
 import {
   saveChartData,
@@ -67,11 +69,16 @@ const chartText = document.getElementById('chartData');
 chartText.addEventListener('input', (event) => {
   updateChartFromText(event, chart, saveChartData);
 });
-chartText.addEventListener('keydown', tabNavigation);
+
+chartText.addEventListener('click', highlightCurrentSegment);
+
+formatJSONText(chartText);
+
+chartText.addEventListener("keydown", tabNavigation);
 
 // Copy current text to clipboard
-document.querySelector('#copy-button').onclick = () => {
-  navigator.clipboard.writeText(document.querySelector('#chartData').value);
+document.querySelector("#copy-button").onclick = () => {
+  navigator.clipboard.writeText(document.querySelector("#chartData").innerText);
 };
 
 // Add an event listener to the export button

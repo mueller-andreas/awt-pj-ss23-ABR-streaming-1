@@ -1,3 +1,16 @@
+/* eslint-disable no-param-reassign */
+import Cursor from './Cursor.js';
+
+// Define function to update necessary functions
+export function updateDataAndUI(chart) {
+  // Update the first element
+  updateFirstElement(chart);
+  // Update the text area with the chart data
+  updateChartDataText(chart);
+  // Adjust the text area size according to the content
+  updateTextareaSize();
+}
+
 // Define function to keep the first element level with the second
 function updateFirstElement(chart) {
   const { data } = chart.data.datasets[0];
@@ -11,52 +24,74 @@ function updateChartDataText(chart) {
     duration: point.x - data[index].x,
     speed: point.y,
   }));
-  document.getElementById('chartData').value = JSON.stringify(output);
+  const chartText = document.getElementById('chartData');
+  chartText.innerText = JSON.stringify(output);
+  formatJSONText(chartText);
 }
 
 const chartDataTextarea = document.getElementById('chartData');
+
+chartDataTextarea.addEventListener('input', updateTextareaSize);
 
 function updateTextareaSize() {
   chartDataTextarea.style.height = 'auto';
   chartDataTextarea.style.height = `${chartDataTextarea.scrollHeight + 5}px`;
 }
 
-chartDataTextarea.addEventListener('input', updateTextareaSize);
+function checkText(text) {
+  const errors = [];
+  // test general pattern
+  const pattern = /^\[\{\s*"duration"\s*:[1-9]\d*,\s*"speed"\s*:[1-9]\d*\}(,\{\s*"duration"\s*:[1-9]\d*,\s*"speed"\s*:[1-9]\d*\})*\]$/;
+  const result = pattern.test(text);
+  if (result) {
+    return errors;
+  }
 
-// Define function to update necessary functions
-export function updateDataAndUI(chart) {
-  // Update the first element
-  updateFirstElement(chart);
-  // Update the text area with the chart data
-  updateChartDataText(chart);
-  // Adjust the text area size according to the content
-  updateTextareaSize();
-}
+  // check for correct start and end
+  if (!text.startsWith('[{')) {
+    errors.push(0);
+  }
 
-function insertTextSegment(textarea) {
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const sel = textarea.value.substring(start, end);
-  const finText = `${textarea.value.substring(0, start)
-  }"duration":,"speed":}${
-    textarea.value.substring(end)}`;
-  textarea.value = finText;
-  textarea.focus();
-  textarea.selectionEnd = end + 11;
+  if (!text.endsWith('}]')) {
+    errors.push(text.length - 2);
+  }
+
+  // use json parser error to get error position
+  try {
+    JSON.parse(text);
+  } catch (err) {
+    console.log(err.message)
+    const matches = err.message.matchAll(/at position ([1-9]\d*)/g);
+    Array.from(matches).forEach((match) => {
+      errors.push(match.index);
+    });
+  }
+
+    return errors.length > 0 ? errors : [-1];
 }
 
 export function updateChartFromText(event, chart, saveChartData) {
   const origin = event.target;
-  const text = origin.value.replace(/ /g, '');
+  const text = origin.innerText;
 
   if (event.data === '{') {
-    insertTextSegment(origin);
+    if ((text[Cursor.getCurrentCursorPosition(origin) - 2] === ',' || text[Cursor.getCurrentCursorPosition(origin) - 2] === '[') && text[Cursor.getCurrentCursorPosition(origin)] === '{') {
+      insertTextSegment(origin, true);
+    } else if (text[Cursor.getCurrentCursorPosition(origin)] === ']') {
+      insertTextSegment(origin, false);
+    }
   }
 
-  const pattern = /^\[\{"duration":[1-9]\d*,"speed":[1-9]\d*\}(,\{"duration":[1-9]\d*,"speed":[1-9]\d*\})*]$/;
-  const result = pattern.test(text);
-  origin.classList.toggle('invalid', !result);
+  const errors = checkText(text);
+  const result = (errors.length === 0);
 
+  origin.classList.toggle('invalid', !result);
+  const offset = Cursor.getCurrentCursorPosition(origin);
+
+  formatJSONText(origin, errors);
+  updateTextareaSize();
+
+  Cursor.setCurrentCursorPosition(offset, origin);
   if (!result) return;
 
   const newData = JSON.parse(text);
@@ -70,24 +105,63 @@ export function updateChartFromText(event, chart, saveChartData) {
   // update chart
 
   chart.data.datasets[0].data = [{ x: 0, y: res[0].y }, ...res];
-
   chart.update();
   saveChartData(chart);
+}
+
+export function formatJSONText(target, errors) {
+  let text = target.innerText;
+  if (errors === undefined) {
+    errors = [];
+  }
+  if (errors.length > 0) {
+    if (errors[0] !== -1) {
+      text = `${text.slice(0, errors[0])}<span class="error">${text[errors[0]]}</span>${text.slice(errors[0] + 1)}`;
+    }
+  }
+  const res = text
+    .replaceAll('duration', '<span class="key">duration</span>')
+    .replaceAll('speed', '<span class="key">speed</span>')
+    .replace(/\d+/g, '<span class="value">$&</span>');
+  target.innerHTML = res;
+}
+
+function insertTextSegment(textarea, includeComma) {
+  const caret = Cursor.getCurrentCursorPosition(textarea);
+  const text = textarea.innerText;
+  const result = `${text.slice(0, caret)}"duration":,"speed":}${includeComma ? ',': ''}${text.slice(caret)}`;
+  textarea.innerText = result;
+  formatJSONText(textarea, []);
+  Cursor.setCurrentCursorPosition(caret + 11, textarea);
+}
+
+function getCurrentSegmentIndex(textarea) {
+  const caret = Cursor.getCurrentCursorPosition(textarea);
+  const text = textarea.innerText;
+  let currentSegment = -1;
+  for (let i = 1; i < caret; i += 1) {
+    if (text[i] === '{') {
+      currentSegment += 1;
+    }
+  }
+  return currentSegment;
+}
+
+export function highlightCurrentSegment(event) {
+  const currentSegment = getCurrentSegmentIndex(event.target);
 }
 
 // move to next data point on tab in the textarea
 export function tabNavigation(event) {
   const origin = event.target;
-  const text = origin.value;
+  const text = origin.innerText;
   if (event.key !== 'Tab') return;
+
   event.preventDefault();
-  const start = origin.selectionStart;
-  const end = origin.selectionEnd;
-  let nextColon = text.indexOf(':', end);
+  const caret = Cursor.getCurrentCursorPosition(origin);
+  let nextColon = Math.min(text.indexOf(':', caret), text.indexOf('}', caret));
   if (nextColon === -1) {
-    nextColon = text.length - 1;
-  } else {
-    nextColon += 1;
+    nextColon = text.indexOf(':');
   }
-  origin.selectionEnd = origin.selectionStart = nextColon;
+  Cursor.setCurrentCursorPosition(nextColon + 1, origin);
 }
