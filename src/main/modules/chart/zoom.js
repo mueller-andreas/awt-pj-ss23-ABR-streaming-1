@@ -21,7 +21,6 @@ export const zoom = {
         return true;
       }
       return false;
-
     },
     mode: "",
     scaleMode: "xy",
@@ -40,4 +39,5 @@ export function zoomToGraph(chart) {
 
   chart.zoomScale("x", { min: 0, max: xMax });
   chart.zoomScale("y", { min: 0, max: yMax });
+  chart.update();
 }

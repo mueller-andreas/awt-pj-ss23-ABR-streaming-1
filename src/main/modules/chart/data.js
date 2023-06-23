@@ -1,7 +1,7 @@
 export const data = {
   datasets: [
     {
-      label: 'Bandwidth Trajectory',
+      label: "Bandwidth Trajectory",
       data: [
         { x: 0, y: 8000 },
         { x: 5000, y: 8000 },
@@ -36,7 +36,7 @@ export const data = {
   ],
 };
 
-const currentSeg = 1;
+const currentSeg = 2;
 
 const segmentStyle = (ctx, value) =>
   ctx.p1DataIndex === currentSeg ? value : undefined;
