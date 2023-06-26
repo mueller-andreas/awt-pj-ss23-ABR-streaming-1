@@ -151,7 +151,7 @@ export function highlightCurrentSegment(event, chart) {
 }
 
 // move to next data point on tab in the textarea
-export function tabNavigation(event) {
+function tabNavigation(event) {
   const origin = event.target;
   const text = origin.innerText;
   if (event.key !== 'Tab') return;
@@ -163,4 +163,20 @@ export function tabNavigation(event) {
     nextColon = text.indexOf(':');
   }
   Cursor.setCurrentCursorPosition(nextColon + 1, origin);
+}
+
+export function chartTextKeypress(event, chart) {
+  switch (event.key) {
+    case 'Tab':
+      tabNavigation();
+      break;
+    case 'ArrowLeft':
+    case 'ArrowRight':
+    case 'ArrowUp':
+    case 'ArrowDown':
+      highlightCurrentSegment(event, chart);
+      break;
+    default:
+      break;
+  }
 }

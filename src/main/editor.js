@@ -10,7 +10,7 @@ import {
 import {
   updateDataAndUI,
   updateChartFromText,
-  tabNavigation,
+  chartTextKeypress,
   formatJSONText,
   highlightCurrentSegment,
 } from './modules/chart/functions/updateFunctions.js';
@@ -78,7 +78,9 @@ chartText.addEventListener('click', (event) => {
 
 formatJSONText(chartText);
 
-chartText.addEventListener('keydown', tabNavigation);
+chartText.addEventListener('keydown', (event) => {
+  chartTextKeypress(event, chart);
+});
 
 // Copy current text to clipboard
 document.querySelector('#copy-button').onclick = () => {
