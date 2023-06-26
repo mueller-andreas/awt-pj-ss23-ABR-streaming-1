@@ -145,8 +145,9 @@ function getCurrentSegmentIndex(textarea) {
   return currentSegment;
 }
 
-export function highlightCurrentSegment(event) {
-  const currentSegment = getCurrentSegmentIndex(event.target);
+export function highlightCurrentSegment(event, chart) {
+  chart.data.datasets[0].currentSeg = getCurrentSegmentIndex(event.target) + 1;
+  chart.update();
 }
 
 // move to next data point on tab in the textarea

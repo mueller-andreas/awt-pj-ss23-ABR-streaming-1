@@ -72,7 +72,9 @@ chartText.addEventListener('input', (event) => {
   updateChartFromText(event, chart, saveChartData);
 });
 
-chartText.addEventListener('click', highlightCurrentSegment);
+chartText.addEventListener('click', (event) => {
+  highlightCurrentSegment(event, chart);
+});
 
 formatJSONText(chartText);
 
