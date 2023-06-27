@@ -25,18 +25,12 @@
           <button id="copy-button" class="button">Copy To Clipboard</button>
           <button id="graphicButton" class="button">Export Graphic</button>
           <button id="jsonButtonExport" class="button">Export JSON</button>
-
-          <section>
-            <input type="file" id="inputFile" accept=".json" />
-            <button id="jsonButtonImport">Import JSON File</button>
-          </section>
+          <div><input type="file" id="inputFile" accept=".json" /></div>
+          <button id="jsonButtonImport">Import JSON File</button>
         </fieldset>
         <fieldset>
           <legend>Chart Options</legend>
-          <div>
-            <input type="checkbox" id="lockSegButton"></input>
-            <label for="lockSegButton">Lock Segments</label>
-          </div>
+            <label for="lockSegButton"><input type="checkbox" id="lockSegButton"></input>Lock Segments</label>
           <button id="zoomGraphButton" class="button">Zoom to Graph</button>
         </fieldset>
         <fieldset>
@@ -46,25 +40,5 @@
       </form>
 
     </main>
-
-
-
-
-
-
-    
-
-
-
-
-    <br />
-
-    <div>
-      <div>
-        Import Chart Data From JSON File: Please choose a file and then click on
-        "Import JSON File"
-      </div>
-
-    </div>
   </body>
 </html>
