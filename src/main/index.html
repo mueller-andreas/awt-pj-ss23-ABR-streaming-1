@@ -22,23 +22,22 @@
       <form>
         <fieldset>
           <legend>File I/O</legend>
-          <button id="copy-button" class="button">Copy To Clipboard</button>
-          <button id="graphicButton" class="button">Export Graphic</button>
-          <button id="jsonButtonExport" class="button">Export JSON</button>
+          <button type="button" id="copy-button" class="button">Copy To Clipboard</button>
+          <button type="button" id="graphicButton" class="button">Export Graphic</button>
+          <button type="button" id="jsonButtonExport" class="button">Export JSON</button>
           <div><input type="file" id="inputFile" accept=".json" /></div>
           <button id="jsonButtonImport">Import JSON File</button>
         </fieldset>
         <fieldset>
           <legend>Chart Options</legend>
             <label for="lockSegButton"><input type="checkbox" id="lockSegButton"></input>Lock Segments</label>
-          <button id="zoomGraphButton" class="button">Zoom to Graph</button>
+          <button type="button" id="zoomGraphButton" class="button">Zoom to Graph</button>
         </fieldset>
         <fieldset>
           <legend>JSON Output</legend>
           <div id="chartData" contenteditable></div>
         </fieldset>
       </form>
-
     </main>
   </body>
 </html>
