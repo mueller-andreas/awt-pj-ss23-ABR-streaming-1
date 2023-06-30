@@ -154,11 +154,9 @@ export function highlightCurrentSegment(event, chart, offset) {
 function tabNavigation(event) {
   const origin = event.target;
   const text = origin.innerText;
-  if (event.key !== 'Tab') return;
 
-  event.preventDefault();
   const caret = Cursor.getCurrentCursorPosition(origin);
-  let nextColon = Math.min(text.indexOf(':', caret), text.indexOf('}', caret));
+  let nextColon = text.indexOf(':', caret);
   if (nextColon === -1) {
     nextColon = text.indexOf(':');
   }
@@ -169,7 +167,8 @@ export function chartTextKeypress(event, chart) {
   switch (event.key) {
     case 'Tab':
       event.preventDefault();
-      tabNavigation();
+      tabNavigation(event);
+      highlightCurrentSegment(event, chart, 0);
       break;
     case 'ArrowLeft':
       highlightCurrentSegment(event, chart, -1);
