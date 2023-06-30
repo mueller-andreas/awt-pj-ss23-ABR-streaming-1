@@ -164,6 +164,7 @@ fieldset:has(#chartData.invalid) {
 /* Style the context menu */
 .context-menu {
     display: none;
+    white-space: nowrap;
     position: absolute;
     z-index: 1;
     padding: 8px 0;
