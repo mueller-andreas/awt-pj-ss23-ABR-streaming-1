@@ -133,8 +133,8 @@ export function updateChartFromText(event, chart, saveChartData) {
   saveChartData(chart);
 }
 
-function getCurrentSegmentIndex(textarea) {
-  const caret = Cursor.getCurrentCursorPosition(textarea);
+function getCurrentSegmentIndex(textarea, offset) {
+  const caret = Cursor.getCurrentCursorPosition(textarea) + offset;
   const text = textarea.innerText;
   let currentSegment = -1;
   for (let i = 1; i < caret; i += 1) {
@@ -145,8 +145,8 @@ function getCurrentSegmentIndex(textarea) {
   return currentSegment;
 }
 
-export function highlightCurrentSegment(event, chart) {
-  chart.data.datasets[0].currentSeg = getCurrentSegmentIndex(event.target) + 1;
+export function highlightCurrentSegment(event, chart, offset) {
+  chart.data.datasets[0].currentSeg = getCurrentSegmentIndex(event.target, offset) + 1;
   chart.update();
 }
 
@@ -168,13 +168,17 @@ function tabNavigation(event) {
 export function chartTextKeypress(event, chart) {
   switch (event.key) {
     case 'Tab':
+      event.preventDefault();
       tabNavigation();
       break;
     case 'ArrowLeft':
+      highlightCurrentSegment(event, chart, -1);
+      break;
     case 'ArrowRight':
+      highlightCurrentSegment(event, chart, 1);
+      break;
     case 'ArrowUp':
     case 'ArrowDown':
-      highlightCurrentSegment(event, chart);
       break;
     default:
       break;
