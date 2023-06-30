@@ -1,0 +1,189 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui;
+}
+
+main {
+    width: 800px;
+    margin-inline: auto;
+    margin-top: 3em;
+}
+
+canvas {
+    height: 400px;
+}
+
+form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+    gap: 0.5em;
+    justify-items: stretch;
+}
+
+fieldset {
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset:nth-child(1) {
+    display: grid;
+    gap: 0.5em;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+fieldset:nth-child(2) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+    flex-direction: column;
+}
+
+fieldset:last-child {
+    grid-column: span 2;
+    display: block;
+}
+
+label:has(input[type=checkbox]) {
+    cursor: pointer;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    font-size: 14px;
+}
+
+input[type=checkbox] {
+    vertical-align: middle;
+    position: relative;
+    bottom: .08em;
+    margin-right: 0.6em;
+}
+
+button {
+    display: inline-block;
+    outline: 0;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #babfc3;
+    padding: 4px 10px;
+    min-height: 36px;
+    min-width: 36px;
+    background: #ffffff;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px;
+}
+
+button:hover {
+    background: #f6f6f7;
+    outline: 1px solid transparent;
+}
+
+div:has(input[type=file]) {
+    width: 100%;
+    display: inline-block;
+    border: 1px solid #babfc3;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 0px 0px;
+    grid-column: span 2;
+}
+  
+input::file-selector-button {
+    outline: 0;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    border-right: 1px solid #babfc3;
+    border-radius: 4px;
+    padding: 7px 16px;
+    margin-right: 1em;
+    min-height: 36px;
+    min-width: 36px;
+    background: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+
+input::file-selector-button:hover {
+    background: #f6f6f7;
+    outline: 1px solid transparent;
+}
+
+input::file-selector-button:active {
+    outline: auto 1px red;
+}
+
+#chartData {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 19px;
+    max-width: 100%;
+    min-width: 0;
+    overflow: auto;
+    height: auto;
+    caret-color: black;
+    resize: none;
+}
+
+#chartData:focus {
+    outline: none;
+}
+
+fieldset:has(#chartData:focus) {
+    border: 1px solid black;
+}
+
+fieldset:has(#chartData.invalid) {
+    border: 1px solid red;
+}
+
+#chartData * {
+    pointer-events: none;
+}
+  
+#chartData span.key {
+    color: #0451a5;
+}
+
+#chartData span.value {
+    color: #09885a;
+}
+
+#chartData span.error {
+    /* color: #ff0000; */
+    text-decoration: #ff0000 solid underline;
+}
+
+/* Style the context menu */
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    padding: 8px 0;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  /* Style the context menu items */
+  .context-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: #000;
+    text-decoration: none;
+  }
+  
+  /* Change the color of the context menu items on hover */
+  .context-menu a:hover {
+    background-color: #eee;
+  }

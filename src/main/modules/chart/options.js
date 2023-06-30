@@ -57,6 +57,9 @@ const scales = {
 
 export const options = {
   plugins: {
+    legend: {
+      display: false,
+    },
     customCanvasBackgroundColor: {
       color: 'white',
     },

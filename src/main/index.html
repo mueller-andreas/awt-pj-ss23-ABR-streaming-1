@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chart.js Example</title>
+    <title>Bandwidth Trajectory Editor</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="simple-style.css" />
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@latest"></script>
@@ -16,35 +16,29 @@
   </head>
 
   <body>
-    <canvas id="myChart"></canvas>
-
-
-
-
-
-    <div id="chartData" contenteditable></div>
-
-    <input type="checkbox" id="lockSegButton">Lock Segments</button>
-    
-    <button id="copy-button" class="button">Copy To Clipboard</button>
-
-    <div id="contextMenu" class="context-menu"></div>
-
-    <button id="graphicButton" class="button">Export Graphic</button>
-
-    <button id="jsonButtonExport" class="button">Export JSON</button>
-
-    <button id="zoomGraphButton" class="button">Zoom to Graph</button>
-    <br />
-
-    <div>
-      <div>
-        Import Chart Data From JSON File: Please choose a file and then click on
-        "Import JSON File"
-      </div>
-      <input type="file" id="inputFile" accept=".json" />
-
-      <button id="jsonButtonImport">Import JSON File</button>
-    </div>
+    <main>
+      <h1>Bandwidth Trajectory Editor</h1>
+      <canvas id="myChart"></canvas>
+      <div id="contextMenu" class="context-menu"></div>
+      <form>
+        <fieldset>
+          <legend>File I/O</legend>
+          <button type="button" id="copy-button" class="button">Copy To Clipboard</button>
+          <button type="button" id="graphicButton" class="button">Export Graphic</button>
+          <button type="button" id="jsonButtonExport" class="button">Export JSON</button>
+          <div><input type="file" id="inputFile" accept=".json" /></div>
+          <button id="jsonButtonImport">Import JSON File</button>
+        </fieldset>
+        <fieldset>
+          <legend>Chart Options</legend>
+            <label for="lockSegButton"><input type="checkbox" id="lockSegButton"></input>Lock Segments</label>
+          <button type="button" id="zoomGraphButton" class="button">Zoom to Graph</button>
+        </fieldset>
+        <fieldset>
+          <legend>JSON Output</legend>
+          <div id="chartData" contenteditable></div>
+        </fieldset>
+      </form>
+    </main>
   </body>
 </html>
