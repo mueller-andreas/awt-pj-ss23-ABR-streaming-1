@@ -78,7 +78,11 @@ chartText.addEventListener('click', (event) => {
 });
 
 chartText.addEventListener('keydown', (event) => {
-  chartTextKeypress(event, chart);
+  chartTextKeypress(event, chart, false);
+});
+
+chartText.addEventListener('keyup', (event) => {
+  chartTextKeypress(event, chart, true);
 });
 
 formatJSONText(chartText);

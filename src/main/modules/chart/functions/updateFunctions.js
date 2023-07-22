@@ -163,7 +163,7 @@ function tabNavigation(event) {
   Cursor.setCurrentCursorPosition(nextColon + 1, origin);
 }
 
-export function chartTextKeypress(event, chart) {
+export function chartTextKeypress(event, chart, isUp) {
   switch (event.key) {
     case 'Tab':
       event.preventDefault();
@@ -178,6 +178,10 @@ export function chartTextKeypress(event, chart) {
       break;
     case 'ArrowUp':
     case 'ArrowDown':
+      if (isUp) {
+        highlightCurrentSegment(event, chart, 0);
+      }
+
       break;
     default:
       break;
