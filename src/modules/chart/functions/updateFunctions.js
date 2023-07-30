@@ -85,6 +85,7 @@ function checkText(text) {
   return errors.length > 0 ? errors : [-1];
 }
 
+// add new template when "{" is inserted
 function insertTextSegment(textarea, includeComma) {
   const caret = Cursor.getCurrentCursorPosition(textarea);
   const text = textarea.innerText;

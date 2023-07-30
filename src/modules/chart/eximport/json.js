@@ -39,7 +39,6 @@ export function importChartData(chart, updateDataAndUI, saveChartData) {
     return;
   }
 
-  // Create a new FileReader
   const reader = new FileReader();
 
   // Set the function to be executed when the file is loaded

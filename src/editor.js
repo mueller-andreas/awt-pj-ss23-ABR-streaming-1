@@ -28,7 +28,6 @@ import {
 import { zoomToGraph } from './modules/chart/zoom.js';
 
 // chart.js
-// Get the chart context
 const chartContext = document.getElementById('myChart').getContext('2d');
 
 // Create the chart
