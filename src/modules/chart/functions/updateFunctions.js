@@ -150,6 +150,11 @@ export function highlightCurrentSegment(event, chart, offset) {
   chart.update();
 }
 
+export function resetHighlight(chart) {
+  chart.data.datasets[0].currentSeg = -1;
+  chart.update();
+}
+
 // move to next data point on tab in the textarea
 function tabNavigation(event) {
   const origin = event.target;

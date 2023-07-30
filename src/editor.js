@@ -13,6 +13,7 @@ import {
   chartTextKeypress,
   formatJSONText,
   highlightCurrentSegment,
+  resetHighlight,
 } from './modules/chart/functions/updateFunctions.js';
 import {
   saveChartData,
@@ -84,6 +85,10 @@ chartText.addEventListener('keydown', (event) => {
 chartText.addEventListener('keyup', (event) => {
   chartTextKeypress(event, chart, true);
 });
+
+chartText.addEventListener('focusout', (event) => {
+  resetHighlight(chart);
+})
 
 formatJSONText(chartText);
 
